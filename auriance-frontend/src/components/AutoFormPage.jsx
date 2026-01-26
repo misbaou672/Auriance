@@ -587,15 +587,16 @@ export default function AutoFormPage({ onBack }) {
         try {
             setIsExporting(true);
             const token = localStorage.getItem('token');
-            const mainDetail = fields[0].value || "Document";
-            const title = `${FORM_CONFIGS[formType].label} - ${mainDetail}`;
+            const mainDetail = fields[0]?.value || "Document";
+            const typeLabel = t.config[formType]?.label || formType;
+            const title = `${typeLabel} - ${mainDetail}`;
 
             const pdfBlob = await exportTranscriptionPdf(
                 { text: textContent, duration: 0, language: language, title: title, type: formType },
                 token
             );
 
-            const url = window.URL.createObjectURL(new Blob([pdfBlob], { type: 'application/octet-stream' }));
+            const url = window.URL.createObjectURL(new Blob([pdfBlob], { type: 'application/pdf' }));
             const link = document.createElement('a');
             link.href = url;
             link.download = `Auriance_${formType}_${Date.now()}.pdf`;

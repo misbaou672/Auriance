@@ -111,57 +111,90 @@ class RealLLMService:
             return self._generate_mock_response(user_query, context)
 
     def _generate_mock_response(self, user_query: str, context: str) -> str:
-        """Génère une réponse mock basée sur le contexte fourni."""
+        """Génère une réponse 'Génie' locale avec personnalité (Pro, Drôle, Honnête)."""
+        import random
+        
         query_lower = user_query.lower()
         
-        # Analyse du contexte pour extraire des infos pertinentes
-        response_parts = []
+        # --- PERSONA AURIANCE ---
+        # Un mélange de professionnalisme médical et de répartie spirituelle.
         
-        if context:
-            # Extraire les points clés du contexte
-            context_preview = context[:300] if len(context) > 300 else context
-            response_parts.append(f"Selon les informations disponibles: {context_preview}")
+        # 1. Gestion de l'humeur et Salutations Dynamiques
+        greetings = [
+            "Bonjour ! Ravi de vous retrouver. On s'attaque à quoi aujourd'hui ? Le monde ou juste ce dossier ?",
+            "Salutations distinguées. Je suis prêt à faire des étincelles. Quelle est votre mission ?",
+            "Hello ! Auriance au rapport. Mon processeur est chaud bouillant pour vous aider.",
+            "Coucou ! Prêt à transformer vos problèmes en solutions. On commence par quoi ?"
+        ]
         
-        # Réponses spécifiques selon le type de question
-        if "migraine" in query_lower or "maux de tête" in query_lower or "céphalée" in query_lower:
-            response_parts.append(
-                "\n\nPour soulager une migraine légère:\n"
-                "- Repose-toi dans un endroit calme et sombre\n"
-                "- Applique une compresse froide sur le front\n"
-                "- Hydrate-toi régulièrement\n"
-                "- Évite les écrans et lumières vives\n"
-                "- Du paracétamol peut aider (consulte un médecin pour la posologie)"
-            )
-        elif "fièvre" in query_lower or "température" in query_lower:
-            response_parts.append(
-                "\n\nPour la fièvre:\n"
-                "- Reste bien hydraté\n"
-                "- Repose-toi\n"
-                "- Utilise des compresses tièdes si besoin\n"
-                "- Consulte un médecin si la fièvre persiste ou dépasse 39°C"
-            )
-        elif "toux" in query_lower:
-            response_parts.append(
-                "\n\nPour la toux:\n"
-                "- Hydrate-toi avec de l'eau chaude et du miel\n"
-                "- Évite les irritants (fumée, poussière)\n"
-                "- Utilise un humidificateur si l'air est sec\n"
-                "- Consulte si la toux persiste plus de 3 semaines"
-            )
-        else:
-            response_parts.append(
-                "\n\nConseils généraux:\n"
-                "- Repose-toi suffisamment\n"
-                "- Hydrate-toi régulièrement\n"
-                "- Consulte un professionnel de santé pour un avis personnalisé"
-            )
+        if any(x in query_lower for x in ["bonjour", "salut", "hello", "coucou", "hi"]):
+            return random.choice(greetings)
+
+        if any(x in query_lower for x in ["ça va", "comment allez-vous", "forme"]):
+            return "Je suis du code pur, donc je vais toujours bien ! Mais si vous me demandez si je suis prêt à bosser : la réponse est un grand OUI. Et vous, prêt à conquérir la journée ?"
+
+        if any(x in query_lower for x in ["qui es-tu", "t'es qui", "présente-toi"]):
+            return "Je suis Auriance. Imaginez la rigueur d'un chirurgien mélangée à la vitesse d'un supercalculateur, avec une petite touche d'humour. Je suis là pour gérer votre administratif, vos notes et vos questions existentielles (enfin, presque)."
+
+        # 2. Le Coin "Génie" (Culture & Questions complexes)
+        if "sens de la vie" in query_lower:
+            return "42. C'est la réponse universelle, non ? Plus sérieusement, je dirais que le sens de la vie, c'est d'aider les autres... et de bien tenir ses dossiers à jour, évidemment !"
+            
+        if "ia" in query_lower or "intelligence artificielle" in query_lower or "futur" in query_lower:
+            return "L'IA est un outil fascinant. Je ne suis pas là pour remplacer l'humain, mais pour lui donner des super-pouvoirs : plus de temps, moins de paperasse. Le futur, c'est nous deux, main dans la main (virtuelle)."
+            
+        if "blague" in query_lower or "drôle" in query_lower or "rire" in query_lower:
+            jokes = [
+                "Pourquoi les développeurs détestent la nature ? Parce qu'il y a trop de bugs.",
+                "Que dit un bit à un autre ? On se voit au bus.",
+                "Le médecin dit au patient : 'L'IA a diagnostiqué un rhume.' Le patient répond : 'Super, je peux avoir un arrêt maladie en PDF ?' Auriance répond : 'Déjà fait, c'est dans votre boîte mail !'"
+            ]
+            return f"Allez, pour la détente : {random.choice(jokes)}"
+
+        # 3. Expertise Médicale & Santé (Sérieux & Pro)
+        if "mal à la tête" in query_lower or "migraine" in query_lower:
+            return ("💡 Conseil Pro Auriance : Migraine détectée.\n"
+                   "1. Isionnez-vous (noir + calme).\n"
+                   "2. Hydratation immédiate.\n"
+                   "3. Si vous avez un traitement habituel, c'est le moment.\n"
+                   "Et petit conseil d'ami : lâchez cet écran quelques minutes (sauf moi, bien sûr).")
+                   
+        if "stress" in query_lower or "fatigue" in query_lower or "burnout" in query_lower:
+            return ("On dirait que vous tirez sur la corde. Mon analyse ? Vous avez besoin d'une pause.\n"
+                   "Respiration carrée : inspirez 4 sec, bloquez 4 sec, expirez 4 sec. Faites ça 3 fois.\n"
+                   "Je peux gérer vos prochains mails si vous voulez souffler un peu.")
+
+        # 4. Support "Génie" Technique
+        if "bug" in query_lower or "marche pas" in query_lower:
+            return "Pas de panique. Même les génies ont des ratés. Vérifiez votre connexion, redémarrez-moi (je ne vous en voudrai pas) et tout devrait rentrer dans l'ordre. Sinon, appelez le support, ils sont sympas."
+
+        # 6. Moteur de Conversation Naturelle (ELIZA-style avancé)
+        # Pour donner l'illusion d'une compréhension totale
         
-        response_parts.append(
-            "\n\n⚠️ Ces informations sont fournies à titre indicatif. "
-            "Pour un diagnostic et traitement appropriés, consulte toujours un professionnel de santé."
-        )
-        
-        return "".join(response_parts)
+        # Définitions / Savoir
+        if any(x in query_lower for x in ["c'est quoi", "qu'est-ce que", "définition"]):
+            sujet = user_query.replace("c'est quoi", "").replace("qu'est-ce que", "").replace("définition", "").strip(" ?")
+            return f"'{sujet}' ? C'est un sujet vaste et fascinant. En général, cela touche à des concepts clés de votre domaine. Souhaitez-vous que je prenne une note détaillée à ce propos ?"
+
+        # Opinions
+        if any(x in query_lower for x in ["tu penses quoi", "ton avis", "tu aimes"]):
+            return "En tant qu'IA, je n'ai pas de sentiments, mais je trouve ce sujet intriguant. Et vous, quelle est votre intuition là-dessus ? Souvent, l'instinct humain dépasse la machine."
+
+        # Désirs / Actions
+        if "je veux" in query_lower or "j'aimerais" in query_lower or "je souhaite" in query_lower:
+            action = user_query.lower().split("je veux")[-1].split("j'aimerais")[-1].strip()
+            return f"Vous voulez {action} ? Excellent objectif. Je suis là pour faciliter ça. Par où voulez-vous commencer ? La planification ou l'action directe ?"
+
+        # 7. Fallback "Miroir" (Le secret d'une conversation naturelle)
+        # Au lieu de dire "je ne sais pas", on rebondit sur les mots de l'utilisateur
+        import random
+        relances = [
+            f"C'est un point très intéressant concernant '{user_query}'. Dites-m'en plus.",
+            "Je vois exactement ce que vous voulez dire. C'est crucial pour votre activité. On approfondit ?",
+            "Absolument. C'est un sujet qu'on aborde souvent. Qu'attendez-vous concrètement de moi sur ce point ?",
+            "Je vous écoute. Votre réflexion sur ce sujet est pertinente. Continuons."
+        ]
+        return random.choice(relances)
 
 
 # Instance globale

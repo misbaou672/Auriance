@@ -9,11 +9,11 @@ export default defineConfig({
   server: {
     port: 5173,
     strictPort: true,
-    host: 'localhost',
+    host: true, // Listen on all local IPs
     cors: true,
     proxy: {
-      '/auth': 'http://localhost:8000',
-      '/api': 'http://localhost:8000',
+      '/auth': 'http://localhost:8090',
+      '/api': 'http://localhost:8090',
     }
   }
 })

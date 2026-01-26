@@ -102,6 +102,12 @@ def create_app() -> FastAPI:
     )
 
     # Initialiser la BD au démarrage
+    from fastapi.staticfiles import StaticFiles
+    import os
+    if not os.path.exists("static"):
+        os.makedirs("static")
+    app.mount("/static", StaticFiles(directory="static"), name="static")
+
     logger.info("🚀 Démarrage d'AURIANCE...")
     try:
         init_db()
@@ -155,6 +161,8 @@ app.include_router(translation_router)
 app.include_router(voice_stream_router)
 app.include_router(voice_recognition_router)
 app.include_router(chatbot_router)
+from app.api.routes.voice_chat_routes import router as voice_chat_router
+app.include_router(voice_chat_router)
 
 # ==================== TRANSLATION SHORTCUTS ====================
 @app.get("/translation/languages")

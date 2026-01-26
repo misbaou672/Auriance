@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mic, FileText, History, Settings, LogOut, Sparkles, Terminal, Database, GitBranch, Sun, Moon, ChevronRight, ArrowLeft } from 'lucide-react';
+import GlobalAIChat from './GlobalAIChat';
 
 export default function ToolsMenu({ onSelectTool, onLogout, onBack, user }) {
     const [isDarkMode, setIsDarkMode] = useState(true);
+    const [showVoiceChat, setShowVoiceChat] = useState(false);
 
     const tools = [
         {
@@ -227,21 +229,36 @@ export default function ToolsMenu({ onSelectTool, onLogout, onBack, user }) {
                         );
                     })}
 
-                    {/* Pro Card Placeholder */}
-                    <motion.div
+                    {/* Pro Card Placeholder -> Voice Assistant */}
+                    <motion.button
                         variants={itemVariants}
-                        className={`relative p-1 rounded-[2.6rem] bg-gradient-to-br from-violet-600 via-blue-600 to-emerald-600 opacity-60 hover:opacity-100 transition-opacity cursor-pointer`}
+                        onClick={() => setShowVoiceChat(true)}
+                        className={`group relative text-left`}
                     >
-                        <div className={`h-full p-8 rounded-[2.5rem] flex flex-col items-center justify-center text-center space-y-4 ${isDarkMode ? 'bg-[#020617]' : 'bg-white'}`}>
-                            <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center">
-                                <Sparkles className="w-8 h-8 text-white animate-pulse" />
+                        <div className={`relative h-full p-8 rounded-[2.5rem] border overflow-hidden backdrop-blur-3xl shadow-2xl transition-all duration-500 ${isDarkMode ? 'bg-slate-900/40 border-white/5 hover:border-white/20' : 'bg-white border-slate-200 hover:border-slate-300'}`}>
+                            {/* Animated Background */}
+                            <div className="absolute inset-0 bg-gradient-to-br from-violet-600/20 via-fuchsia-600/20 to-cyan-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+
+                            <div className="flex flex-col h-full items-center justify-center text-center space-y-4 relative z-10">
+                                <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-cyan-400 to-violet-600 flex items-center justify-center shadow-lg shadow-violet-500/30 group-hover:scale-110 transition-transform duration-500">
+                                    <Sparkles className="w-8 h-8 text-white animate-pulse" />
+                                </div>
+                                <div>
+                                    <h3 className={`text-xl font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Assistant Vocal IA</h3>
+                                    <p className={`text-xs font-bold uppercase tracking-widest mt-1 ${isDarkMode ? 'text-cyan-400' : 'text-cyan-600'}`}>Nouvelle Génération</p>
+                                </div>
+                                <p className={`text-sm font-medium ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+                                    Dialoguez naturellement avec Auriance. Elle répond de vive voix.
+                                </p>
                             </div>
-                            <h3 className={`text-xl font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Auriance Pro+</h3>
-                            <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Bientôt disponible</p>
                         </div>
-                    </motion.div>
+                    </motion.button>
                 </motion.div>
             </main>
+
+            {showVoiceChat && (
+                <GlobalAIChat onClose={() => setShowVoiceChat(false)} />
+            )}
 
             <footer className={`relative z-10 py-12 border-t mt-12 transition-colors duration-500 ${isDarkMode ? 'border-white/5 text-slate-500' : 'border-slate-100 text-slate-400'}`}>
                 <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6 text-[10px] font-bold uppercase tracking-[0.2em]">

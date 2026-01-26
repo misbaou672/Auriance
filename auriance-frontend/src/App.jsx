@@ -17,7 +17,6 @@ import ApiDocsPage from './pages/marketing/ApiDocsPage';
 import ContactPage from './pages/marketing/ContactPage';
 import FAQPage from './pages/marketing/FAQPage';
 import SettingsPage from './pages/settings/SettingsPage';
-import GlobalAIChat from './components/GlobalAIChat';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -171,8 +170,6 @@ function App() {
           />
         )}
 
-        {/* Assistant IA Global */}
-        <GlobalAIChat />
       </div>
     </LanguageProvider>
   );

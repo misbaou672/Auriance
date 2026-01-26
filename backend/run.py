@@ -12,6 +12,6 @@ if __name__ == "__main__":
         "app.main_auriance:app",
         host="0.0.0.0",
         port=8090,
-        reload=False,  # Désactiver le reload qui cause des problèmes
+        reload=True,  # Activer le reload pour le développement
         log_level="info"
     )

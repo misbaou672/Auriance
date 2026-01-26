@@ -531,22 +531,31 @@ export default function HistoryPage({ onBack, user }) {
         return date.toLocaleDateString(language);
     };
 
-    const handleDelete = async (item) => {
-        if (!window.confirm(t.deleteConfirm)) return;
+    const [deleteItemConfirm, setDeleteItemConfirm] = useState(null);
+
+    const handleDeleteClick = (item) => {
+        setDeleteItemConfirm(item);
+    };
+
+    const confirmDelete = async () => {
+        if (!deleteItemConfirm) return;
+        const item = deleteItemConfirm;
         try {
             if (item.isExtraction) {
                 await deleteExtraction(item.id);
             } else {
                 await deleteTranscription(item.id);
             }
-            // Mettre à jour la liste locale
             setTranscriptions(prev => prev.filter(trans => trans.id !== item.id));
             if (selectedItem?.id === item.id) setSelectedItem(null);
+            setDeleteItemConfirm(null);
         } catch (error) {
             console.error("Erreur suppression:", error);
             alert(t.deleteError);
         }
     };
+
+
 
     const handleExportPdf = async (item) => {
         try {
@@ -954,7 +963,7 @@ export default function HistoryPage({ onBack, user }) {
                                                 {t.exportPdf}
                                             </button>
                                             <button
-                                                onClick={() => handleDelete(selectedItem)}
+                                                onClick={() => handleDeleteClick(selectedItem)}
                                                 className={`p-3 rounded-xl transition-all duration-500 shadow-lg active:scale-95 border ${isDarkMode
                                                     ? 'bg-red-500/10 border-red-500/20 text-red-500 hover:bg-red-500 hover:text-white'
                                                     : 'bg-red-50 border-red-100 text-red-600 hover:bg-red-600 hover:text-white'
@@ -970,6 +979,53 @@ export default function HistoryPage({ onBack, user }) {
                     </AnimatePresence>
                 </div>
             </div>
+
+            {/* Modal de Confirmation */}
+            <AnimatePresence>
+                {deleteItemConfirm && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+                    >
+                        <motion.div
+                            initial={{ scale: 0.9, y: 20 }}
+                            animate={{ scale: 1, y: 0 }}
+                            exit={{ scale: 0.9, y: 20 }}
+                            className={`w-full max-w-md p-6 rounded-3xl shadow-2xl border ${isDarkMode ? 'bg-slate-900 border-white/10' : 'bg-white border-slate-200'}`}
+                        >
+                            <div className="flex flex-col items-center text-center gap-4">
+                                <div className={`w-16 h-16 rounded-full flex items-center justify-center ${isDarkMode ? 'bg-red-500/10 text-red-500' : 'bg-red-50 text-red-600'}`}>
+                                    <Trash2 className="w-8 h-8" />
+                                </div>
+                                <h3 className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
+                                    Confirmation
+                                </h3>
+                                <p className={`text-sm ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>
+                                    {t.deleteConfirm}
+                                </p>
+                                <div className="flex gap-3 w-full mt-2">
+                                    <button
+                                        onClick={() => setDeleteItemConfirm(null)}
+                                        className={`flex-1 py-3 rounded-xl font-bold transition-colors ${isDarkMode ? 'bg-white/5 hover:bg-white/10 text-white' : 'bg-slate-100 hover:bg-slate-200 text-slate-700'}`}
+                                    >
+                                        Annuler
+                                    </button>
+                                    <button
+                                        onClick={confirmDelete}
+                                        className="flex-1 py-3 rounded-xl font-bold bg-red-500 hover:bg-red-600 text-white transition-colors shadow-lg shadow-red-500/20"
+                                    >
+                                        Supprimer
+                                    </button>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 }
+
+

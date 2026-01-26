@@ -13,11 +13,14 @@ import { sttService } from '../services/stt_web';
 
 import { useLanguage } from '../contexts/LanguageContext';
 
+import GlobalAIChat from '../components/GlobalAIChat';
+
 export default function VoiceRecognitionWithSidebar({ user, onLogout, onBack }) {
     const { t, currentLanguage } = useLanguage();
     // État pour la navigation entre les vues
     const [currentView, setCurrentView] = useState('menu'); // 'menu' | 'transcription_live' | 'transcription' | 'auto_form' | 'history'
 
+    const [showVoiceChat, setShowVoiceChat] = useState(false);
     const [isRecording, setIsRecording] = useState(false);
     const [transcript, setTranscript] = useState('');
     const [interimTranscript, setInterimTranscript] = useState('');
