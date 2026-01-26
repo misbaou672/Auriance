@@ -1,0 +1,4 @@
+{
+    // Point VS Code Dart/Flutter tooling to the Flutter SDK installed on this machine.
+    "dart.flutterSdkPath": "C:\\src\\flutter_windows_3.38.6-stable\\flutter"
+}

@@ -1,0 +1,9 @@
+﻿flask
+flask-cors
+openai-whisper
+torch
+psycopg2-binary
+numpy
+silero-vad==6.2.0
+noisereduce==2.0.1
+soundfile==0.12.1

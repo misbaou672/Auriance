@@ -1,0 +1,103 @@
+===========================================
+NOTO FONTS INSTALLATION FOR AURIANCE
+===========================================
+
+The app needs these font files for full multilingual PDF support:
+
+BASE FONTS (Essential):
+1. NotoSans-Regular.ttf         - Latin, Cyrillic, Greek
+2. NotoSans-Bold.ttf             - Bold variant
+3. NotoSans-Italic.ttf           - Italic variant
+
+CJK:
+4. NotoSansKR-Regular.ttf        - Korean (한국어)
+5. NotoSansJP-Regular.ttf        - Japanese (日本語)
+6. NotoSansSC-Regular.ttf        - Chinese (简体中文)
+
+SOUTH ASIAN:
+7. NotoSansTamil-Regular.ttf     - Tamil (தமிழ்)
+8. NotoSansDevanagari-Regular.ttf - Hindi (हिन्दी)
+9. NotoSansBengali-Regular.ttf   - Bengali (বাংলা)
+
+MIDDLE EASTERN:
+10. NotoSansArabic-Regular.ttf   - Arabic (العربية)
+11. NotoSansHebrew-Regular.ttf   - Hebrew (עברית)
+
+SOUTHEAST ASIAN:
+12. NotoSansThai-Regular.ttf     - Thai (ไทย)
+
+===========================================
+METHOD 1: Run the PowerShell Script
+===========================================
+
+cd C:\Users\marec\Documents\auriance\auriance_mobile\assets\fonts
+.\download_fonts.ps1
+
+===========================================
+METHOD 2: Download Manually from Google Fonts
+===========================================
+
+1. Visit: https://fonts.google.com/noto
+2. Download these font families:
+   - Noto Sans
+   - Noto Sans KR
+   - Noto Sans JP  
+   - Noto Sans SC
+3. Extract the ZIP files
+4. Copy these TTF files to this directory:
+   - NotoSans-Regular.ttf
+   - NotoSans-Bold.ttf
+   - NotoSans-Italic.ttf
+   - NotoSansKR-Regular.ttf
+   - NotoSansJP-Regular.ttf
+   - NotoSansSC-Regular.ttf
+
+===========================================
+METHOD 3: Use Backup Links
+===========================================
+
+If GitHub blocks downloads, use these alternative URLs:
+
+Base fonts (Latin/Cyrillic/Greek):
+https://fonts.google.com/download?family=Noto%20Sans
+
+CJK:
+- Korean: https://fonts.google.com/download?family=Noto%20Sans%20KR
+- Japanese: https://fonts.google.com/download?family=Noto%20Sans%20JP
+- Chinese: https://fonts.google.com/download?family=Noto%20Sans%20SC
+
+South Asian:
+- Tamil: https://fonts.google.com/download?family=Noto%20Sans%20Tamil
+- Devanagari: https://fonts.google.com/download?family=Noto%20Sans%20Devanagari
+- Bengali: https://fonts.google.com/download?family=Noto%20Sans%20Bengali
+
+Middle Eastern:
+- Arabic: https://fonts.google.com/download?family=Noto%20Sans%20Arabic
+- Hebrew: https://fonts.google.com/download?family=Noto%20Sans%20Hebrew
+
+Southeast Asian:
+- Thai: https://fonts.google.com/download?family=Noto%20Sans%20Thai
+
+===========================================
+After Installation
+===========================================
+
+1. Verify fonts are in this directory
+2. Run: flutter pub get
+3. Rebuild app: flutter run -d <device-id>
+4. Test PDF export with multilingual text
+
+===========================================
+Benefits
+===========================================
+
+✓ Full Unicode support (Latin, Cyrillic, Greek)
+✓ CJK support (Korean, Japanese, Chinese)
+✓ South Asian scripts (Tamil, Hindi, Bengali)
+✓ Middle Eastern scripts (Arabic, Hebrew)
+✓ Southeast Asian scripts (Thai)
+✓ Mixed-language PDFs render correctly
+✓ Language-specific filenames (e.g., transcription_ta_123456.pdf)
+✓ Automatic font selection based on detected language
+
+===========================================

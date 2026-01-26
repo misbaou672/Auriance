@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nettoyage Auriance</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+            max-width: 500px;
+        }
+        h1 {
+            color: #2e1d00;
+            margin-bottom: 20px;
+        }
+        p {
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        button {
+            background: #2e1d00;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        button:hover {
+            background: #1a1300;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .success {
+            color: #28a745;
+            font-weight: bold;
+            margin-top: 20px;
+            display: none;
+        }
+        .link {
+            margin-top: 20px;
+            display: none;
+        }
+        .link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧹 Nettoyage Auriance</h1>
+        <p>
+            Cliquez sur le bouton ci-dessous pour nettoyer votre session et voir la page d'accueil complète du site Auriance.
+        </p>
+        <p style="font-size: 14px; color: #999;">
+            Cela supprimera votre session actuelle et vous permettra de voir le site comme un nouveau visiteur.
+        </p>
+        
+        <button onclick="cleanAndRedirect()">Nettoyer et Voir le Site</button>
+        
+        <div class="success" id="success">
+            ✅ Nettoyage effectué avec succès !
+        </div>
+        
+        <div class="link" id="link">
+            <a href="http://localhost:5173/">→ Accéder au site Auriance</a>
+        </div>
+    </div>
+
+    <script>
+        function cleanAndRedirect() {
+            // Nettoyer le localStorage
+            localStorage.clear();
+            
+            // Nettoyer le sessionStorage aussi
+            sessionStorage.clear();
+            
+            // Afficher le message de succès
+            document.getElementById('success').style.display = 'block';
+            document.getElementById('link').style.display = 'block';
+            
+            // Rediriger après 2 secondes
+            setTimeout(() => {
+                window.location.href = 'http://localhost:5173/';
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

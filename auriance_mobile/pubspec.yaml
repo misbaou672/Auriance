@@ -1,0 +1,62 @@
+name: auriance_mobile
+description: Auriance Voice Recognition Mobile App
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  # vad: ^0.0.7+1
+  record: ^6.1.2
+  # flutter_sound: ^9.30.0
+  # just_audio: ^0.10.5
+  # audio_waveforms: ^2.0.1
+  speech_to_text: ^7.3.0
+  web_socket_channel: ^3.0.3
+  http: ^1.6.0
+  dio: ^5.9.0
+  provider: ^6.1.5+1
+  flutter_bloc: ^9.1.1
+  get: ^4.7.3
+  lottie: ^3.3.2
+  animations: ^2.1.1
+  flutter_animate: ^4.5.2
+  smooth_page_indicator: ^2.0.1
+  flutter_svg: ^2.2.3
+  shared_preferences: any
+  flutter_secure_storage: ^10.0.0
+  flutter_dotenv: any
+  sqflite: any
+  uuid: ^4.0.0
+  intl: ^0.20.2
+  path_provider: ^2.1.5
+  permission_handler: ^12.0.1
+  file_picker: ^10.3.8
+  google_fonts: any
+  pdf: any
+  printing: ^5.14.2
+  file_saver: any
+  package_info_plus: ^9.0.0
+  fl_chart: any
+  font_awesome_flutter: any
+  path: any
+  # mic_stream_recorder: ^1.1.2
+  # flutter_audio_capture: ^1.1.12
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/audios/
+    - assets/icons/
+    - assets/animations/
+    - assets/fonts/
+    - .env

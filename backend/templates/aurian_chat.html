@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>🧠 AURIAN - Ton Assistant IA</title>
+    <style>
+        body {
+            font-family: Arial;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .chat-container {
+            border: 2px solid #007bff;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .messages {
+            height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .message {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .user {
+            background: #007bff;
+            color: white;
+            text-align: right;
+        }
+
+        .aurian {
+            background: #f1f1f1;
+            text-align: left;
+        }
+
+        input,
+        button {
+            padding: 10px;
+            margin: 5px;
+        }
+
+        input {
+            width: 70%;
+        }
+
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="chat-container">
+        <h1>🧠 AURIAN - Ton Assistant IA Perso</h1>
+        <div class="messages" id="messages"></div>
+        <div>
+            <input type="text" id="messageInput" placeholder="Tape ton message...">
+            <button onclick="sendMessage()">Envoyer</button>
+        </div>
+    </div>
+
+    <script>
+        async function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+
+            if (!message) return;
+
+            // Ajouter le message utilisateur
+            addMessage('👤 Toi', message, 'user');
+            input.value = '';
+
+            try {
+                // Appeler l'API Aurian
+                const response = await fetch(`/api/aurian-ollama/chat?message=${encodeURIComponent(message)}`);
+                const data = await response.json();
+
+                // Ajouter la réponse d'Aurian
+                addMessage('🤖 Aurian', data.aurian_response, 'aurian');
+            } catch (error) {
+                addMessage('🤖 Aurian', '😅 Oops! Problème de connexion...', 'aurian');
+            }
+        }
+
+        function addMessage(sender, text, type) {
+            const messagesDiv = document.getElementById('messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+            messageDiv.innerHTML = `<strong>${sender}:</strong> ${text}`;
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        // Enter pour envoyer
+        document.getElementById('messageInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') sendMessage();
+        });
+    </script>
+</body>
+
+</html>

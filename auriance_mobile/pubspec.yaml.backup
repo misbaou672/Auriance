@@ -1,0 +1,44 @@
+name: auriance_mobile
+description: Application mobile Auriance
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  # Packages essentiels
+  provider: ^6.1.2
+  http: ^1.1.0
+  shared_preferences: ^2.2.2
+  intl: ^0.19.0
+  
+  # Audio (optionnel - à ajouter plus tard)
+  # audioplayers: ^5.2.1
+  # record: ^5.0.1
+  
+  # WebSocket
+  web_socket_channel: ^2.4.3
+  
+  # Navigation
+  # go_router: ^12.1.5  # REMOVED - trop de problèmes
+  
+  # UI
+  percent_indicator: ^4.2.3
+  
+  # Localization
+  flutter_localizations:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.1
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/

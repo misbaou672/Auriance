@@ -1,0 +1,15 @@
+2026-01-17 17:27:22,298 [INFO] root: ============================================================
+2026-01-17 17:27:22,299 [INFO] root: DÉMARRAGE DU SERVEUR - VERSION DEBUG
+2026-01-17 17:27:22,299 [INFO] root: ============================================================
+2026-01-17 17:27:22,372 [INFO] root: ✅ Imports Starlette OK
+2026-01-17 17:27:22,416 [INFO] root: ✅ Imports uvicorn OK
+2026-01-17 17:27:22,417 [INFO] root: ✅ Routes créées
+2026-01-17 17:27:22,417 [INFO] root: ✅ Application Starlette créée
+2026-01-17 17:27:22,417 [INFO] root: ✅ Middleware CORS ajouté
+2026-01-17 17:27:22,417 [INFO] root: 
+============================================================
+2026-01-17 17:27:22,418 [INFO] root: LANCEMENT UVICORN
+2026-01-17 17:27:22,418 [INFO] root: ============================================================
+
+2026-01-17 17:27:22,418 [INFO] root: ✅ Windows event loop policy défini
+2026-01-17 17:27:22,418 [INFO] root: Création de la config uvicorn...

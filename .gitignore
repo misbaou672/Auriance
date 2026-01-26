@@ -1,0 +1,5 @@
+# Ignore Python environments and large files
+backend/app/services/whisper_models/*.pt
+backend/aurian_env/
+*.dll
+*.lib
