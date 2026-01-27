@@ -8,11 +8,16 @@ from app.db.base import Base
 from app.models.user import User
 from app.db.models import Transcription, Extraction, Report, GeneratedQuery, SQLQuery, CypherQuery, MedicalSearch
 
-# Create engine
+# Create engine with SQLite support
+connect_args = {}
+if DATABASE_URL.startswith("sqlite"):
+    connect_args = {"check_same_thread": False}
+
 engine = create_engine(
     DATABASE_URL,
     echo=False,  # Set to True for SQL logging
     pool_pre_ping=True,  # Verify connections before using
+    connect_args=connect_args
 )
 
 # Create session factory

@@ -34,6 +34,13 @@ import {
 } from "lucide-react";
 import { VoiceWave } from "./VoiceWave";
 import { saveConsultation, savePdf, saveTranscription, exportTranscriptionPdf, saveExtraction } from "../services/api";
+import { useLanguage } from '../contexts/LanguageContext';
+
+// Mapping from global language code to speech recognition locale
+const LANG_TO_LOCALE = {
+    'FR': 'fr-FR', 'EN': 'en-US', 'ES': 'es-ES', 'DE': 'de-DE', 'IT': 'it-IT',
+    'PT': 'pt-PT', 'ZH': 'zh-CN', 'AR': 'ar-SA', 'JA': 'ja-JP', 'RU': 'ru-RU'
+};
 
 const templates = [
     { id: 1, name: "Consultation générale", fields: 12 },
@@ -194,8 +201,8 @@ const TRANSLATIONS = {
         modalErrorSTT: "Votre navigateur ne supporte pas la reconnaissance vocale.",
         config: {
             medical: {
-                label: "Santé", fields: ["Patient", "Âge", "Symptômes", "Médicament prescrit", "Diagnostic", "Recommandations"],
-                triggers: { "Patient": ['patient', 'monsieur', 'madame', 'enfant', 'nom', 'sujet'], "Âge": ['age', 'age de', 'il a', 'elle a', 'vie'], "Symptômes": ['symptomes', 'symptome', 'signes', 'douleur', 'mal a', 'plaint de', 'motif'], "Médicament prescrit": ['medicament', 'traitement', 'prescris', 'ordonnance', 'prendre', 'donne'], "Diagnostic": ['diagnostic', 'conclusion', 'resultat', 'il s\'agit de', 'est une', 'a une'], "Recommandations": ['recommandation', 'conseil', 'revoir', 'rendez-vous', 'attention'] }
+                label: "Santé", fields: ["Nom du patient", "Âge", "Symptômes", "Médicament prescrit", "Diagnostic", "Recommandations"],
+                triggers: { "Nom du patient": ['patient', 'monsieur', 'madame', 'enfant', 'nom', 'sujet', 'nom du patient'], "Âge": ['age', 'age de', 'il a', 'elle a', 'vie'], "Symptômes": ['symptomes', 'symptome', 'signes', 'douleur', 'mal a', 'plaint de', 'motif'], "Médicament prescrit": ['medicament', 'traitement', 'prescris', 'ordonnance', 'prendre', 'donne'], "Diagnostic": ['diagnostic', 'conclusion', 'resultat', 'il s\'agit de', 'est une', 'a une'], "Recommandations": ['recommandation', 'conseil', 'revoir', 'rendez-vous', 'attention'] }
             },
             biodiversity: {
                 label: "Biodiversité", fields: ["Espèce", "Nombre", "Lieu", "Comportement", "Météo"],
@@ -310,14 +317,47 @@ const TRANSLATIONS = {
 };
 
 export default function AutoFormPage({ onBack }) {
+    const { t: translate, currentLanguage } = useLanguage();
     const [isDark, setIsDark] = useState(true);
-    const [language, setLanguage] = useState('fr-FR');
+    const [language, setLanguage] = useState(LANG_TO_LOCALE[currentLanguage] || 'fr-FR');
     const [showLangMenu, setShowLangMenu] = useState(false);
     const [formType, setFormType] = useState("medical");
     const [selectedTemplate, setSelectedTemplate] = useState(1);
     const [isGenerating, setIsGenerating] = useState(false);
     const [isGenerated, setIsGenerated] = useState(false);
-    const t = TRANSLATIONS[language] || TRANSLATIONS['fr-FR'];
+
+    // Sync speech recognition language with global language
+    useEffect(() => {
+        const newLocale = LANG_TO_LOCALE[currentLanguage];
+        if (newLocale && newLocale !== language) {
+            setLanguage(newLocale);
+        }
+    }, [currentLanguage]);
+
+    // Use global translations if available, fallback to local TRANSLATIONS
+    const getGlobalT = () => {
+        const localeToGlobal = { 'fr-FR': 'FR', 'en-US': 'EN', 'es-ES': 'ES', 'de-DE': 'DE', 'it-IT': 'IT', 'pt-PT': 'PT', 'zh-CN': 'ZH', 'ar-SA': 'AR', 'ja-JP': 'JA', 'ru-RU': 'RU' };
+        const globalLang = localeToGlobal[language];
+
+        if (globalLang) {
+            const keys = ['back', 'rawTranscript', 'quickTemplates', 'demoButton', 'generatedReport', 'autoExtraction', 'waitingData', 'btnValidate', 'btnExport', 'btnClear', 'modalClearTitle', 'modalClearMessage', 'modalSaveSuccess', 'modalSaveSuccessMessage', 'modalErrorSTT', 'currentDomain'];
+            const result = {};
+            keys.forEach(key => {
+                const globalValue = translate(`dashboard.autoForm.${key}`);
+                result[key] = globalValue !== `dashboard.autoForm.${key}` ? globalValue : (TRANSLATIONS[language]?.[key] || TRANSLATIONS['fr-FR'][key]);
+            });
+            // Keep local config (fields/triggers specific to speech recognition language)
+            result.config = TRANSLATIONS[language]?.config || TRANSLATIONS['fr-FR'].config;
+            // Copy remaining keys from local translations
+            const localT = TRANSLATIONS[language] || TRANSLATIONS['fr-FR'];
+            Object.keys(localT).forEach(key => {
+                if (!(key in result)) result[key] = localT[key];
+            });
+            return result;
+        }
+        return TRANSLATIONS[language] || TRANSLATIONS['fr-FR'];
+    };
+    const t = getGlobalT();
 
     const [editingField, setEditingField] = useState(null);
     const [copied, setCopied] = useState(false);

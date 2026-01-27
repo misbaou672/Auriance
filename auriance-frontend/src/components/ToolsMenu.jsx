@@ -1,49 +1,51 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mic, FileText, History, Settings, LogOut, Sparkles, Terminal, Database, GitBranch, Sun, Moon, ChevronRight, ArrowLeft } from 'lucide-react';
+import { useLanguage } from '../contexts/LanguageContext';
 
 export default function ToolsMenu({ onSelectTool, onLogout, onBack, user }) {
+    const { t } = useLanguage();
     const [isDarkMode, setIsDarkMode] = useState(true);
 
     const tools = [
         {
             id: 'transcription',
-            name: 'Transcription Live',
+            name: t('dashboard.toolsMenu.transcription.name'),
             icon: Mic,
             color: '#8b5cf6', // Violet
-            description: 'Transcription IA haute fidélité en temps réel avec Auriance Whisper.',
+            description: t('dashboard.toolsMenu.transcription.desc'),
             accent: 'violet'
         },
         {
             id: 'autoform',
-            name: 'Auto Form',
+            name: t('dashboard.toolsMenu.autoform.name'),
             icon: FileText,
             color: '#3b82f6', // Blue
-            description: 'Extraction intelligente vers formulaires structurés via NLP avancé.',
+            description: t('dashboard.toolsMenu.autoform.desc'),
             accent: 'blue'
         },
         {
             id: 'history',
-            name: 'Historique',
+            name: t('dashboard.toolsMenu.history.name'),
             icon: History,
             color: '#10b981', // Emerald
-            description: 'Consultez et gérez vos sessions passées et données extraites.',
+            description: t('dashboard.toolsMenu.history.desc'),
             accent: 'emerald'
         },
         {
             id: 'generated_queries',
-            name: 'Requêtes Générées',
+            name: t('dashboard.toolsMenu.generatedQueries.name'),
             icon: Database,
             color: '#f59e0b', // Amber
-            description: 'Générez des requêtes SQL et Cypher complexes par simple commande vocale.',
+            description: t('dashboard.toolsMenu.generatedQueries.desc'),
             accent: 'amber'
         },
         {
             id: 'settings',
-            name: 'Paramètres',
+            name: t('dashboard.toolsMenu.settings.name'),
             icon: Settings,
             color: '#64748b', // Slate
-            description: 'Configurez votre environnement, profil et préférences système.',
+            description: t('dashboard.toolsMenu.settings.desc'),
             accent: 'slate'
         },
     ];
@@ -84,7 +86,7 @@ export default function ToolsMenu({ onSelectTool, onLogout, onBack, user }) {
                             <button
                                 onClick={onBack}
                                 className={`p-2.5 rounded-xl transition-all duration-300 group border ${isDarkMode ? 'bg-white/5 border-white/10 text-slate-400 hover:text-white hover:bg-white/10' : 'bg-white border-slate-200 text-slate-500 hover:text-slate-900 hover:bg-slate-100 shadow-sm'}`}
-                                title="Retour"
+                                title={t('dashboard.toolsMenu.back')}
                             >
                                 <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
                             </button>
@@ -98,7 +100,7 @@ export default function ToolsMenu({ onSelectTool, onLogout, onBack, user }) {
                                     Auriance <span className="text-xs font-medium tracking-widest text-slate-500 ml-1">v2.0</span>
                                 </h1>
                                 <p className={`text-[10px] font-bold uppercase tracking-widest ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
-                                    Intelligent Engine Pro
+                                    {t('dashboard.toolsMenu.subtitle')}
                                 </p>
                             </div>
                         </div>
@@ -107,7 +109,7 @@ export default function ToolsMenu({ onSelectTool, onLogout, onBack, user }) {
                     <div className="flex items-center gap-6">
                         <div className="hidden md:flex flex-col items-end">
                             <span className={`text-xs font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{user?.full_name || user?.username}</span>
-                            <span className="text-[10px] font-medium text-slate-500 uppercase tracking-widest">Connecté</span>
+                            <span className="text-[10px] font-medium text-slate-500 uppercase tracking-widest">{t('dashboard.toolsMenu.connected')}</span>
                         </div>
 
                         <div className="flex items-center gap-2 p-1 rounded-full border border-white/10 bg-black/5">
@@ -131,7 +133,7 @@ export default function ToolsMenu({ onSelectTool, onLogout, onBack, user }) {
                                 }`}
                         >
                             <LogOut className="w-3.5 h-3.5" />
-                            <span className="hidden sm:inline">Quitter</span>
+                            <span className="hidden sm:inline">{t('dashboard.toolsMenu.logout')}</span>
                         </button>
                     </div>
                 </div>
@@ -146,7 +148,7 @@ export default function ToolsMenu({ onSelectTool, onLogout, onBack, user }) {
                         className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-[0.2em] border ${isDarkMode ? 'bg-white/5 border-white/10 text-violet-400' : 'bg-violet-50 border-violet-100 text-violet-600'}`}
                     >
                         <Sparkles className="w-3.5 h-3.5" />
-                        Auriance Deep Tech Ecosystem
+                        {t('dashboard.toolsMenu.ecosystemTag')}
                     </motion.div>
 
                     <motion.h2
@@ -155,7 +157,7 @@ export default function ToolsMenu({ onSelectTool, onLogout, onBack, user }) {
                         transition={{ delay: 0.1 }}
                         className={`text-4xl md:text-6xl font-black tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}
                     >
-                        Choisissez votre <span className="bg-gradient-to-r from-violet-500 via-blue-500 to-emerald-500 bg-clip-text text-transparent">Outil</span>
+                        {t('dashboard.toolsMenu.chooseTitle')} <span className="bg-gradient-to-r from-violet-500 via-blue-500 to-emerald-500 bg-clip-text text-transparent">{t('dashboard.toolsMenu.chooseTitleSuffix')}</span>
                     </motion.h2>
                     <motion.p
                         initial={{ opacity: 0, y: 20 }}
@@ -163,7 +165,7 @@ export default function ToolsMenu({ onSelectTool, onLogout, onBack, user }) {
                         transition={{ delay: 0.2 }}
                         className={`max-w-xl text-lg md:text-xl font-medium ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}
                     >
-                        Accédez aux modules d'IA spécialisés pour transformer votre flux de travail clinique.
+                        {t('dashboard.toolsMenu.chooseSubtitle')}
                     </motion.p>
                 </div>
 
@@ -217,7 +219,7 @@ export default function ToolsMenu({ onSelectTool, onLogout, onBack, user }) {
                                             <div className={`px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest`}
                                                 style={{ backgroundColor: `${tool.color}10`, color: tool.color }}
                                             >
-                                                Optimisé IA
+                                                {t('dashboard.toolsMenu.optimizedAI')}
                                             </div>
                                             <div className={`w-1.5 h-1.5 rounded-full`} style={{ backgroundColor: tool.color }} />
                                         </div>
@@ -236,8 +238,8 @@ export default function ToolsMenu({ onSelectTool, onLogout, onBack, user }) {
                             <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center">
                                 <Sparkles className="w-8 h-8 text-white animate-pulse" />
                             </div>
-                            <h3 className={`text-xl font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Auriance Pro+</h3>
-                            <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Bientôt disponible</p>
+                            <h3 className={`text-xl font-black ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>{t('dashboard.toolsMenu.proPlus')}</h3>
+                            <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">{t('dashboard.toolsMenu.comingSoon')}</p>
                         </div>
                     </motion.div>
                 </motion.div>
@@ -246,11 +248,11 @@ export default function ToolsMenu({ onSelectTool, onLogout, onBack, user }) {
             <footer className={`relative z-10 py-12 border-t mt-12 transition-colors duration-500 ${isDarkMode ? 'border-white/5 text-slate-500' : 'border-slate-100 text-slate-400'}`}>
                 <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6 text-[10px] font-bold uppercase tracking-[0.2em]">
                     <div className="flex items-center gap-6">
-                        <a href="#" className="hover:text-white transition-colors">Confidentialité</a>
-                        <a href="#" className="hover:text-white transition-colors">Conditions</a>
-                        <a href="#" className="hover:text-white transition-colors">API Status</a>
+                        <a href="#" className="hover:text-white transition-colors">{t('dashboard.toolsMenu.footerPrivacy')}</a>
+                        <a href="#" className="hover:text-white transition-colors">{t('dashboard.toolsMenu.footerTerms')}</a>
+                        <a href="#" className="hover:text-white transition-colors">{t('dashboard.toolsMenu.footerApiStatus')}</a>
                     </div>
-                    <p>&copy; 2026 Auriance Intelligence. Tous droits réservés.</p>
+                    <p>&copy; 2026 Auriance Intelligence. {t('dashboard.toolsMenu.footerRights')}</p>
                 </div>
             </footer>
         </div>

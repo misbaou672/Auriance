@@ -39,7 +39,7 @@ export default function Hero({ onNavigateToDemo, isDark }) {
                         <div className="animate-slide-up" style={{ animationDelay: '0.1s' }}>
                             <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-medium ${isDark ? 'bg-indigo-500/10 text-indigo-300 border-indigo-500/20' : 'bg-indigo-500/10 text-indigo-600 border-indigo-500/20'}`}>
                                 <Zap className="w-4 h-4" />
-                                Nouveau : Rapports Automatisés IA
+                                {t('home.hero.newFeatureBadge')}
                             </div>
                         </div>
 
@@ -74,15 +74,15 @@ export default function Hero({ onNavigateToDemo, isDark }) {
                                 className={`text-lg px-8 h-14 gap-2 border-2 rounded-xl font-semibold inline-flex items-center transition-colors ${isDark ? 'border-gray-600 text-white hover:bg-white/5' : 'border-gray-200 hover:bg-gray-50 text-gray-800'}`}
                             >
                                 <Play className="w-5 h-5" />
-                                Voir la démo
+                                {t('home.hero.watchDemo')}
                             </Link>
                         </div>
 
                         <div className="flex gap-8 pt-4 animate-slide-up" style={{ animationDelay: '0.4s' }}>
                             {[
-                                { value: '98%', label: 'Précision IA' },
-                                { value: '2h/j', label: 'Temps libéré' },
-                                { value: '10k+', label: 'Utilisateurs' },
+                                { value: '98%', label: t('home.hero.statPrecision') },
+                                { value: '2h/j', label: t('home.hero.statTimeFreed') },
+                                { value: '10k+', label: t('home.hero.statUsers') },
                             ].map((stat) => (
                                 <div key={stat.label} className="text-center">
                                     <div className="text-3xl font-bold gradient-text">{stat.value}</div>
@@ -97,7 +97,7 @@ export default function Hero({ onNavigateToDemo, isDark }) {
                                     <Star key={i} className="w-4 h-4 fill-indigo-400 text-indigo-400" />
                                 ))}
                             </div>
-                            <span className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Adopté par des centaines d'experts</span>
+                            <span className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>{t('home.hero.adoptedBy')}</span>
                         </div>
                     </div>
 
@@ -121,7 +121,7 @@ export default function Hero({ onNavigateToDemo, isDark }) {
                             <div className="text-center mb-6">
                                 <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all ${isRecording ? 'bg-indigo-500/10 text-indigo-600' : 'bg-gray-100 text-gray-500'}`}>
                                     <span className={`w-2 h-2 rounded-full ${isRecording ? 'bg-indigo-500 animate-pulse' : 'bg-gray-400'}`} />
-                                    {isRecording ? 'Analyse vocale en cours...' : 'Prêt à transcrire'}
+                                    {isRecording ? t('home.hero.voiceAnalysis') : t('home.hero.readyToTranscribe')}
                                 </div>
                             </div>
 
@@ -131,7 +131,7 @@ export default function Hero({ onNavigateToDemo, isDark }) {
                                         <FileText className="w-4 h-4 text-indigo-600" />
                                     </div>
                                     <div className="flex-1">
-                                        <p className="text-sm text-gray-500 mb-1">Transcription temps réel</p>
+                                        <p className="text-sm text-gray-500 mb-1">{t('home.hero.realtimeTranscription')}</p>
                                         <p className="text-gray-900 leading-relaxed min-h-[60px]">
                                             {displayText}
                                             {isRecording && <span className="inline-block w-0.5 h-5 bg-indigo-500 animate-pulse ml-0.5" />}
@@ -146,21 +146,21 @@ export default function Hero({ onNavigateToDemo, isDark }) {
                         <div className={`absolute -top-4 -right-4 p-4 rounded-2xl shadow-lg animate-float border ${isDark ? 'glass border-white/10' : 'glass border-indigo-200/50'}`}>
                             <div className="flex items-center gap-2">
                                 <Shield className="w-5 h-5 text-indigo-500" />
-                                <span className={`text-sm font-medium ${isDark ? 'text-white' : 'text-gray-900'}`}>Données Sécurisées</span>
+                                <span className={`text-sm font-medium ${isDark ? 'text-white' : 'text-gray-900'}`}>{t('home.hero.badgeSecure')}</span>
                             </div>
                         </div>
 
                         <div className={`absolute -bottom-4 -left-4 p-4 rounded-2xl shadow-lg animate-float border ${isDark ? 'glass border-white/10' : 'glass border-violet-200/50'}`} style={{ animationDelay: '1s' }}>
                             <div className="flex items-center gap-2">
                                 <Zap className="w-5 h-5 text-indigo-500" />
-                                <span className={`text-sm font-medium ${isDark ? 'text-white' : 'text-gray-900'}`}>Synthèse IA</span>
+                                <span className={`text-sm font-medium ${isDark ? 'text-white' : 'text-gray-900'}`}>{t('home.hero.badgeAI')}</span>
                             </div>
                         </div>
 
                         <div className={`absolute top-1/2 -right-8 p-3 rounded-xl shadow-lg animate-float ${isDark ? 'glass border border-white/10' : 'glass'}`} style={{ animationDelay: '2s' }}>
                             <div className="flex items-center gap-2">
                                 <Zap className="w-4 h-4 text-violet-500" />
-                                <span className={`text-xs font-medium ${isDark ? 'text-white' : 'text-gray-900'}`}>Temps réel</span>
+                                <span className={`text-xs font-medium ${isDark ? 'text-white' : 'text-gray-900'}`}>{t('home.hero.badgeRealtime')}</span>
                             </div>
                         </div>
                     </div>

@@ -4,10 +4,10 @@ from dotenv import load_dotenv
 # Charge les variables d'environnement depuis le fichier .env
 load_dotenv()
 
-# Database (default to Postgres to match docker-compose; override via env for dev)
+# Database (default to SQLite for development; override via env for production)
 DATABASE_URL = os.getenv(
     "DATABASE_URL",
-    "postgresql://postgres:110603@localhost:5432/auriance_medical"
+    "sqlite:///./auriance.db"
 )
 
 # Vector DB (Qdrant)

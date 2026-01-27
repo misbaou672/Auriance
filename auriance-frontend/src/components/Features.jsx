@@ -10,43 +10,43 @@ export default function Features({ isDark }) {
     const features = [
         {
             icon: Mic,
-            title: t('home.features.f1_title') || 'Transcription Temps Réel',
-            description: t('home.features.f1_desc') || 'Dictez naturellement et voyez votre texte apparaître instantanément grâce à notre moteur de reconnaissance vocale de pointe.',
+            title: t('home.features.f1_title'),
+            description: t('home.features.f1_desc'),
             gradient: 'from-indigo-500 to-indigo-500/50',
             delay: '0s',
         },
         {
             icon: Brain,
-            title: t('home.features.f2_title') || 'Analyse IA Avancée',
-            description: t('home.features.f2_desc') || "Notre IA analyse votre discours et extrait automatiquement les points clés, actions à suivre et résumés.",
+            title: t('home.features.f2_title'),
+            description: t('home.features.f2_desc'),
             gradient: 'from-violet-500 to-violet-500/50',
             delay: '0.1s',
         },
         {
             icon: FileText,
-            title: 'Rapports Automatisés',
-            description: 'Vos comptes-rendus sont générés et formatés automatiquement. Fini la mise en page manuelle fastidieuse.',
+            title: t('home.features.f4_title'),
+            description: t('home.features.f4_desc'),
             gradient: 'from-blue-500 to-blue-500/50',
             delay: '0.2s',
         },
         {
             icon: Download,
-            title: 'Export Multi-Formats',
-            description: 'Générez des documents PDF, Word ou JSON en un clic, prêts à être archivés ou partagés avec vos équipes.',
+            title: t('home.features.f5_title'),
+            description: t('home.features.f5_desc'),
             gradient: 'from-indigo-600 to-indigo-600/50',
             delay: '0.3s',
         },
         {
             icon: History,
-            title: 'Historique Illimité',
-            description: 'Retrouvez toutes vos sessions passées, recherchez par mots-clés et réécoutez vos enregistrements originaux.',
+            title: t('home.features.f6_title'),
+            description: t('home.features.f6_desc'),
             gradient: 'from-sky-500 to-sky-500/50',
             delay: '0.4s',
         },
         {
             icon: Shield,
-            title: t('home.features.f3_title') || 'Sécurité Maximale',
-            description: t('home.features.f3_desc') || 'Données chiffrées de bout en bout, serveurs souverains. Vos informations confidentielles restent privées.',
+            title: t('home.features.f3_title'),
+            description: t('home.features.f3_desc'),
             gradient: 'from-violet-600 to-violet-600/50',
             delay: '0.5s',
         },
@@ -55,20 +55,20 @@ export default function Features({ isDark }) {
     const howItWorks = [
         {
             step: '01',
-            title: 'Enregistrez',
-            description: 'Lancez la capture audio lors de vos réunions ou dictez vos notes',
+            title: t('home.features.step1Title'),
+            description: t('home.features.step1Desc'),
             icon: Mic,
         },
         {
             step: '02',
-            title: 'IA Analyse',
-            description: "L'IA transcrit, résume et structure le contenu instantanément",
+            title: t('home.features.step2Title'),
+            description: t('home.features.step2Desc'),
             icon: Brain,
         },
         {
             step: '03',
-            title: 'Exploitez',
-            description: "Exportez le rapport final ou connectez-le à vos outils (CRM, etc.)",
+            title: t('home.features.step3Title'),
+            description: t('home.features.step3Desc'),
             icon: Download,
         },
     ];
@@ -114,15 +114,14 @@ export default function Features({ isDark }) {
             <div className="max-w-6xl mx-auto px-6">
                 <div className="text-center max-w-3xl mx-auto mb-20">
                     <span className={`inline-block px-4 py-2 rounded-full text-sm font-medium mb-4 ${theme.tag}`}>
-                        Fonctionnalités
+                        {t('home.features.sectionTitle')}
                     </span>
                     <h2 className={`text-4xl md:text-5xl font-bold mb-6 tracking-tight ${theme.textHeading}`}>
-                        Tout ce dont vous avez besoin,{' '}
-                        <span className={theme.gradientText}>rien de superflu</span>
+                        {t('home.features.mainTitle')}{' '}
+                        <span className={theme.gradientText}>{t('home.features.mainTitleSuffix')}</span>
                     </h2>
                     <p className={`text-xl leading-relaxed ${theme.textBody}`}>
-                        Une suite complète d'outils pensée pour les experts,
-                        conçue pour maximiser votre efficacité au quotidien.
+                        {t('home.features.mainSubtitle')}
                     </p>
                 </div>
 
@@ -148,11 +147,11 @@ export default function Features({ isDark }) {
                 <div className="relative">
                     <div className="text-center max-w-3xl mx-auto mb-16">
                         <span className={`inline-block px-4 py-2 rounded-full text-sm font-medium mb-4 ${theme.tag}`}>
-                            Comment ça marche
+                            {t('home.features.howItWorksTag')}
                         </span>
                         <h2 className={`text-4xl md:text-5xl font-bold tracking-tight ${theme.textHeading}`}>
-                            Simple comme{' '}
-                            <span className={theme.gradientText}>1, 2, 3</span>
+                            {t('home.features.howItWorksTitle')}{' '}
+                            <span className={theme.gradientText}>{t('home.features.howItWorksTitleSuffix')}</span>
                         </h2>
                     </div>
 
@@ -185,10 +184,10 @@ export default function Features({ isDark }) {
 
                 <div className={`mt-32 grid md:grid-cols-4 gap-8 p-8 rounded-3xl border ${theme.statBox}`}>
                     {[
-                        { icon: Zap, value: '< 100ms', label: 'Latence' },
-                        { icon: Globe, value: '30+', label: 'Langues' },
-                        { icon: Shield, value: '100%', label: 'Chiffré' },
-                        { icon: History, value: '∞', label: 'Historique' },
+                        { icon: Zap, value: '< 100ms', label: t('home.features.statLatency') },
+                        { icon: Globe, value: '30+', label: t('home.features.statLanguages') },
+                        { icon: Shield, value: '100%', label: t('home.features.statEncrypted') },
+                        { icon: History, value: '∞', label: t('home.features.statHistory') },
                     ].map((stat) => (
                         <div key={stat.label} className="text-center">
                             <div className={`inline-flex w-12 h-12 rounded-xl items-center justify-center mb-4 ${theme.iconBox}`}>

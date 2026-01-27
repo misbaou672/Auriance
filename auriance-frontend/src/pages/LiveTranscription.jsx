@@ -5,12 +5,13 @@ import BodyMap from '../components/BodyMap';
 import { saveTranscription, exportTranscriptionPdf, API_BASE_URL } from '../services/api';
 
 const LANGUAGES = [
+    { code: 'multi', label: 'FR + EN (Bilingue)', flag: '🌐' },
+    { code: 'fr-FR', label: 'Français', flag: '🇫🇷' },
     { code: 'en-US', label: 'English', flag: '🇺🇸' },
     { code: 'zh-CN', label: 'Mandarin', flag: '🇨🇳' },
     { code: 'hi-IN', label: 'Hindi', flag: '🇮🇳' },
     { code: 'es-ES', label: 'Español', flag: '🇪🇸' },
     { code: 'ar-SA', label: 'Arabic', flag: '🇸🇦' },
-    { code: 'fr-FR', label: 'Français', flag: '🇫🇷' },
     { code: 'bn-BD', label: 'Bengali', flag: '🇧🇩' },
     { code: 'pt-PT', label: 'Português', flag: '🇵🇹' },
     { code: 'ru-RU', label: 'Русский', flag: '🇷🇺' },
@@ -21,6 +22,39 @@ const LANGUAGES = [
 ];
 
 const TRANSLATIONS = {
+    'multi': {
+        back: "RETOUR",
+        statusActive: "ENREGISTREMENT BILINGUE",
+        statusReady: "MODE BILINGUE PRÊT",
+        titlePrefix: "AURIANCE",
+        titleSuffix: "VOICE",
+        recordingInCourse: "● Capture Audio bilingue FR+EN...",
+        waitingCommand: "Mode bilingue actif",
+        orbInit: "Initialiser",
+        terminalLabel: "live_transcript.txt",
+        charsLabel: "caractères",
+        systemReadyToTranscribe: "Mode bilingue : parlez en français ou anglais...",
+        btnSave: "SAUVEGARDER",
+        btnExport: "EXPORT PDF",
+        btnClear: "EFFACER",
+        modalClearTitle: "Tout effacer ?",
+        modalClearMessage: "Cette action est irréversible. Voulez-vous continuer ?",
+        modalCancel: "Annuler",
+        modalConfirm: "Confirmer",
+        modalSuccessTitle: "PDF Exporté",
+        modalSuccessMessage: "Le fichier a été téléchargé.",
+        modalErrorTitle: "Erreur Export",
+        modalErrorMessage: "Impossible de générer le PDF.",
+        modalSaveSuccess: "Sauvegardé",
+        modalSaveSuccessMsg: "La transcription a été enregistrée dans votre historique.",
+        modalClearSuccess: "Effacé",
+        modalClearSuccessMsg: "La transcription a été réinitialisée.",
+        modalNoTranscript: "Transcription vide",
+        modalNoTranscriptMsg: "Aucune transcription à sauvegarder.",
+        modalMicroErrorTitle: "Erreur Micro",
+        modalMicroErrorMessage: "Impossible d'accéder au microphone. Vérifiez vos permissions.",
+        modalMicroUnavailable: 'Micro indisponible.',
+    },
     'en-US': {
         back: "BACK",
         statusActive: "RECORDING ACTIVE",
@@ -448,13 +482,27 @@ const TRANSLATIONS = {
 
 import { useLanguage } from '../contexts/LanguageContext';
 
+// Mapping from global language code to speech recognition locale
+const LANG_TO_LOCALE = {
+    'FR': 'fr-FR', 'EN': 'en-US', 'ES': 'es-ES', 'DE': 'de-DE', 'IT': 'it-IT',
+    'PT': 'pt-PT', 'ZH': 'zh-CN', 'AR': 'ar-SA', 'JA': 'ja-JP', 'RU': 'ru-RU'
+};
+
 export default function LiveTranscription({ onBack, user }) {
     const { t: translate, currentLanguage } = useLanguage();
     const [theme, setTheme] = useState('dark');
     const isDark = theme === 'dark';
     const toggleTheme = () => setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
 
-    const [language, setLanguage] = useState(translate('locale') || 'fr-FR');
+    const [language, setLanguage] = useState(LANG_TO_LOCALE[currentLanguage] || 'fr-FR');
+
+    // Sync speech recognition language with global language
+    useEffect(() => {
+        const newLocale = LANG_TO_LOCALE[currentLanguage];
+        if (newLocale && newLocale !== language) {
+            setLanguage(newLocale);
+        }
+    }, [currentLanguage]);
     const [showLangMenu, setShowLangMenu] = useState(false);
     const langMenuRef = useRef(null);
 
@@ -577,7 +625,9 @@ export default function LiveTranscription({ onBack, user }) {
         if (!blob || blob.size === 0) return;
         const formData = new FormData();
         formData.append('audio_file', blob, 'recording.webm');
-        formData.append('language', language.split('-')[0]);
+        // Pour le mode bilingue, envoyer 'auto' ou 'fr' au backend Whisper
+        const transcribeLang = language === 'multi' ? 'auto' : language.split('-')[0];
+        formData.append('language', transcribeLang);
 
         const response = await fetch(`${API_BASE_URL}/api/voice/transcribe`, {
             method: 'POST',
@@ -647,7 +697,17 @@ export default function LiveTranscription({ onBack, user }) {
         }
 
         const recognition = new SpeechRecognition();
-        recognition.lang = language;
+
+        // Mode bilingue : utiliser la langue du navigateur pour auto-détection
+        // Cela permet au navigateur de détecter automatiquement FR ou EN
+        if (language === 'multi') {
+            // Ne pas définir de langue spécifique pour permettre l'auto-détection
+            // Ou utiliser la langue du navigateur comme base
+            recognition.lang = ''; // Auto-detection mode
+        } else {
+            recognition.lang = language;
+        }
+
         recognition.continuous = true;
         recognition.interimResults = true;
         recognition.maxAlternatives = 10;
@@ -920,7 +980,24 @@ export default function LiveTranscription({ onBack, user }) {
         return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
     };
 
-    const t = TRANSLATIONS[language] || TRANSLATIONS['fr-FR'];
+    // Use global translations if available, fallback to local TRANSLATIONS for languages not in global context
+    const getGlobalT = () => {
+        // Map speech recognition locale to global language code
+        const localeToGlobal = { 'fr-FR': 'FR', 'en-US': 'EN', 'es-ES': 'ES', 'de-DE': 'DE', 'it-IT': 'IT', 'pt-PT': 'PT', 'zh-CN': 'ZH', 'ar-SA': 'AR', 'ja-JP': 'JA', 'ru-RU': 'RU' };
+        const globalLang = localeToGlobal[language];
+
+        if (globalLang) {
+            const keys = ['back', 'statusActive', 'statusReady', 'titlePrefix', 'titleSuffix', 'recordingInCourse', 'waitingCommand', 'orbInit', 'terminalLabel', 'charsLabel', 'systemReadyToTranscribe', 'btnSave', 'btnExport', 'btnClear', 'modalClearTitle', 'modalClearMessage', 'modalCancel', 'modalConfirm', 'modalSuccessTitle', 'modalSuccessMessage', 'modalErrorTitle', 'modalErrorMessage', 'modalSaveSuccess', 'modalSaveSuccessMsg', 'modalClearSuccess', 'modalClearSuccessMsg', 'modalNoTranscript', 'modalNoTranscriptMsg', 'modalMicroErrorTitle', 'modalMicroErrorMessage', 'modalMicroUnavailable'];
+            const result = {};
+            keys.forEach(key => {
+                const globalValue = translate(`dashboard.liveTranscription.${key}`);
+                result[key] = globalValue !== `dashboard.liveTranscription.${key}` ? globalValue : (TRANSLATIONS[language]?.[key] || TRANSLATIONS['fr-FR'][key]);
+            });
+            return result;
+        }
+        return TRANSLATIONS[language] || TRANSLATIONS['fr-FR'];
+    };
+    const t = getGlobalT();
 
     const handleSave = async () => {
         if (!transcript || transcript.trim().length === 0) {
@@ -929,11 +1006,14 @@ export default function LiveTranscription({ onBack, user }) {
         }
         try {
             const token = localStorage.getItem('token');
+            // Pour le mode bilingue, utiliser 'fr' comme langue de base pour la sauvegarde
+            const saveLang = language === 'multi' ? 'fr' : language.split('-')[0];
+            const displayLocale = language === 'multi' ? 'fr-FR' : language;
             await saveTranscription({
                 text: transcript,
                 duration: Math.floor(elapsedTime / 10),
-                language: language.split('-')[0],
-                title: `Transcription du ${new Date().toLocaleDateString(language)}`,
+                language: saveLang,
+                title: `Transcription du ${new Date().toLocaleDateString(displayLocale)}`,
                 type: 'live'
             }, token);
             showModal({ type: 'success', title: t.modalSaveSuccess, message: t.modalSaveSuccessMsg });
@@ -946,10 +1026,12 @@ export default function LiveTranscription({ onBack, user }) {
         if (!transcript) return;
         try {
             const token = localStorage.getItem('token');
+            // Pour le mode bilingue, utiliser 'fr' comme langue de base
+            const exportLang = language === 'multi' ? 'fr' : language.split('-')[0];
             const pdfBlob = await exportTranscriptionPdf({
                 text: transcript,
                 duration: Math.floor(elapsedTime / 10),
-                language: language.split('-')[0],
+                language: exportLang,
                 title: `Transcription_${new Date().toISOString().split('T')[0]}`,
                 type: 'live'
             }, token);

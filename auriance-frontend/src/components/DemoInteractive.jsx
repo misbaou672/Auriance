@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Mic, MicOff, Volume2 } from 'lucide-react';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const sampleTexts = [
     {
@@ -18,6 +19,7 @@ const sampleTexts = [
 ];
 
 export default function DemoInteractive({ isDark }) {
+    const { t } = useLanguage();
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: '-100px' });
     const [isRecording, setIsRecording] = useState(false);
@@ -107,13 +109,13 @@ export default function DemoInteractive({ isDark }) {
                     className="text-center mb-12"
                 >
                     <span className={`inline-block px-5 py-2 rounded-full border text-sm font-semibold mb-5 ${isDark ? 'bg-indigo-500/10 border-indigo-500/20 text-indigo-400' : 'bg-white border-gray-200 text-gray-900'}`}>
-                        Demo interactive
+                        {t('home.demo.tag')}
                     </span>
                     <h2 className={`text-4xl sm:text-5xl font-bold tracking-tight mb-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                        Essayez par vous-même
+                        {t('home.demo.title')}
                     </h2>
                     <p className={`text-lg max-w-2xl mx-auto ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
-                        Découvrez la puissance de notre reconnaissance vocale en temps réel.
+                        {t('home.demo.subtitle')}
                     </p>
                 </motion.div>
 
@@ -130,12 +132,12 @@ export default function DemoInteractive({ isDark }) {
                                     className={`w-4 h-4 rounded-full ${isRecording ? 'bg-rose-500 animate-pulse' : 'bg-gray-300'}`}
                                 />
                                 <span className={`font-semibold text-lg ${theme.textPrimary}`}>
-                                    {isRecording ? 'Écoute en cours...' : 'Prêt à écouter'}
+                                    {isRecording ? t('home.demo.listening') : t('home.demo.readyToListen')}
                                 </span>
                             </div>
                             <div className={`flex items-center gap-2 ${theme.textSecondary}`}>
                                 <Volume2 className="w-5 h-5" />
-                                <span className="text-sm">Français</span>
+                                <span className="text-sm">{t('home.demo.language')}</span>
                             </div>
                         </div>
 
@@ -182,7 +184,7 @@ export default function DemoInteractive({ isDark }) {
                                 </motion.div>
                             ) : (
                                 <div className={`flex items-center justify-center h-full ${theme.textSecondary}`}>
-                                    <p className="text-lg">Cliquez sur le microphone pour commencer la démo</p>
+                                    <p className="text-lg">{t('home.demo.clickToStart')}</p>
                                 </div>
                             )}
                         </div>
