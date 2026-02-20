@@ -3,6 +3,7 @@ import { ArrowLeft, Save, FileDown, Mic, Moon, Sun, Globe, Check, ChevronDown, A
 import VoiceOrb from '../components/VoiceOrb';
 import BodyMap from '../components/BodyMap';
 import { saveTranscription, exportTranscriptionPdf, API_BASE_URL } from '../services/api';
+import { createVoiceRecognizer, isWebSpeechSupported } from '../../sdk/auriance-voice-sdk.js';
 
 const LANGUAGES = [
     { code: 'multi', label: 'FR + EN (Bilingue)', flag: '🌐' },
@@ -571,14 +572,12 @@ export default function LiveTranscription({ onBack, user }) {
     const replaceWord = (oldWord, newWord) => {
         const regex = new RegExp(`\\b${oldWord}\\b`, 'gi');
         setTranscript(prev => prev.replace(regex, newWord));
-        sessionTextRef.current = sessionTextRef.current.replace(regex, newWord);
         setSelectedWord(null);
     };
 
     const deleteWord = (word) => {
         const regex = new RegExp(`\\b${word}\\b\\s?`, 'gi');
         setTranscript(prev => prev.replace(regex, '').replace(/\s+/g, ' ').trim());
-        sessionTextRef.current = sessionTextRef.current.replace(regex, '').replace(/\s+/g, ' ').trim();
         setSelectedWord(null);
     };
 
@@ -597,15 +596,7 @@ export default function LiveTranscription({ onBack, user }) {
     const isProcessingRef = useRef(false);
     const chunkQueueRef = useRef([]);
     const isSendingRef = useRef(false);
-    const recognitionRef = useRef(null);
-    const isListeningRef = useRef(false);
-    const engineListeningRef = useRef(false);
-    const manualStopRef = useRef(false);
-    const restartTokenRef = useRef(0);
-    const restartPendingRef = useRef(false);
-    const lastRestartRef = useRef(0);
-    const sessionTextRef = useRef('');
-    const partialTextRef = useRef('');
+    const recognizerRef = useRef(null);
 
     // Feature Bio-Scan
     const [showBodyMap, setShowBodyMap] = useState(true);
@@ -648,239 +639,70 @@ export default function LiveTranscription({ onBack, user }) {
         }
     };
 
+    // SDK recognizer lifecycle
     useEffect(() => {
         return () => {
-            try {
-                recognitionRef.current?.stop?.();
-            } catch (e) {
-                console.error('Erreur arrêt STT web:', e);
-            }
+            recognizerRef.current?.destroy();
             mediaRecorderRef.current?.stream?.getTracks?.().forEach(track => track.stop());
         };
     }, []);
 
-    // Reinicia la reconocimiento vocal si la lengua cambia durante la grabación
+    // Restart recognizer when language changes mid-recording
     useEffect(() => {
-        if (isRecording) {
-            // Petit hack pour redémarrer proprement avec la nouvelle langue
-            stopWebSpeech();
-            setTimeout(() => {
-                startWebSpeech({ resetText: false });
-            }, 200);
+        if (recognizerRef.current && isRecording) {
+            recognizerRef.current.setLang(language === 'multi' ? '' : language);
         }
     }, [language]);
 
-    const updateTranscriptFromRefs = () => {
-        const combined = [sessionTextRef.current, partialTextRef.current]
-            .filter(chunk => chunk && chunk.trim().length > 0)
-            .join(' ')
-            .trim();
-        setTranscript(combined);
-    };
-
-    const appendFinalText = (finalText) => {
-        const cleaned = finalText.trim();
-        if (!cleaned) return;
-        if (!sessionTextRef.current) {
-            sessionTextRef.current = cleaned;
-        } else if (!sessionTextRef.current.endsWith(cleaned)) {
-            sessionTextRef.current = `${sessionTextRef.current} ${cleaned}`.trim();
-        }
-    };
-
-    const initSpeechRecognition = () => {
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        if (!SpeechRecognition) {
+    const startWebSpeech = ({ resetText = true } = {}) => {
+        if (!isWebSpeechSupported()) {
             setSttAvailable(false);
-            // setInfo("La reconnaissance vocale n'est pas supportée par ce navigateur.");
-            return null;
-        }
-
-        const recognition = new SpeechRecognition();
-
-        // Mode bilingue : utiliser la langue du navigateur pour auto-détection
-        // Cela permet au navigateur de détecter automatiquement FR ou EN
-        if (language === 'multi') {
-            // Ne pas définir de langue spécifique pour permettre l'auto-détection
-            // Ou utiliser la langue du navigateur comme base
-            recognition.lang = ''; // Auto-detection mode
-        } else {
-            recognition.lang = language;
-        }
-
-        recognition.continuous = true;
-        recognition.interimResults = true;
-        recognition.maxAlternatives = 10;
-
-        recognition.onstart = () => {
-            engineListeningRef.current = true;
-            // setInfo(`🎤 Écoute en ${language}...`); // Removed setInfo call
-        };
-
-        recognition.onresult = (event) => {
-            let finalText = sessionTextRef.current || '';
-            let interimText = '';
-
-            // Fonction de conversion des commandes vocales en ponctuation
-            const convertPunctuation = (text) => {
-                return text
-                    .replace(/\bvirgule\b/gi, ',')
-                    .replace(/\bpoint d'exclamation\b/gi, '!')
-                    .replace(/\bpoint d'interrogation\b/gi, '?')
-                    .replace(/\bpoint\b(?!\s+(d'exclamation|d'interrogation))/gi, '.')
-                    .replace(/\bdeux points\b/gi, ':')
-                    .replace(/\bpoint virgule\b/gi, ';')
-                    .replace(/\bpoints de suspension\b/gi, '...')
-                    .replace(/\bouvrir la parenthèse\b/gi, '(')
-                    .replace(/\bouvre parenthèse\b/gi, '(')
-                    .replace(/\bparenthèse ouvrante\b/gi, '(')
-                    .replace(/\bfermer la parenthèse\b/gi, ')')
-                    .replace(/\bferme parenthèse\b/gi, ')')
-                    .replace(/\bparenthèse fermante\b/gi, ')')
-                    .replace(/\bà la ligne\b/gi, '\n')
-                    .replace(/\ba la ligne\b/gi, '\n')
-                    .replace(/\bnouvelle ligne\b/gi, '\n')
-                    .replace(/\bretour à la ligne\b/gi, '\n')
-                    .replace(/\bretour a la ligne\b/gi, '\n')
-                    .replace(/\bsaut de ligne\b/gi, '\n')
-                    .replace(/\s+([.,!?;:])/g, '$1') // Supprime espace avant ponctuation
-                    .replace(/([.,!?;:])\s*/g, '$1 ') // Ajoute espace après ponctuation
-                    .trim();
-            };
-
-            for (let i = event.resultIndex; i < event.results.length; i += 1) {
-                const result = event.results[i];
-                const bestAlternative = result[0]?.transcript || '';
-                const processedText = convertPunctuation(bestAlternative);
-
-                if (result.isFinal) {
-                    if (!finalText.endsWith(processedText.trim())) {
-                        finalText += (finalText ? ' ' : '') + processedText.trim();
-                    }
-                } else {
-                    interimText += processedText;
-                }
-            }
-            sessionTextRef.current = finalText.trim();
-            partialTextRef.current = interimText.trim();
-            const fullTranscript = [finalText, interimText].filter(Boolean).join(' ').replace(/\s+/g, ' ').trim();
-            setTranscript(fullTranscript);
-            // setInfo(null); // Removed setInfo call
-            setSttError('');
-        };
-
-        recognition.onerror = (event) => {
-            const msg = event?.error || 'unknown';
-            let userMsg = '';
-            if (msg === 'not-allowed' || msg === 'service-not-allowed') {
-                setSttAvailable(false);
-                userMsg = "❌ Accès au micro refusé.";
-            } else if (msg === 'no-speech') {
-                userMsg = "❌ Aucun son détecté.";
-            } else if (msg === 'audio-capture') {
-                userMsg = "❌ Aucun micro détecté.";
-            } else {
-                userMsg = `❌ Erreur : ${msg}`;
-            }
-            setSttError(userMsg);
-            // setInfo(null); // Removed setInfo call
-            if (isListeningRef.current && (msg === 'no-speech' || msg === 'aborted')) {
-                restartAfterDelay();
-            }
-        };
-
-        recognition.onend = () => {
-            engineListeningRef.current = false;
-            if (isListeningRef.current && !manualStopRef.current) {
-                restartAfterDelay();
-            }
-        };
-
-        return recognition;
-    };
-
-    const restartAfterDelay = (delay = 100) => {
-        const now = Date.now();
-        if (now - lastRestartRef.current < 500) return;
-        lastRestartRef.current = now;
-        if (engineListeningRef.current || restartPendingRef.current) return;
-
-        const token = ++restartTokenRef.current;
-        restartPendingRef.current = true;
-        setTimeout(() => {
-            if (token !== restartTokenRef.current) {
-                restartPendingRef.current = false;
-                return;
-            }
-
-            restartPendingRef.current = false;
-            try {
-                recognitionRef.current?.stop?.();
-            } catch (e) {
-                console.error('Erreur redémarrage STT web:', e);
-            }
-
-            setTimeout(() => {
-                if (token !== restartTokenRef.current) return;
-                if (isListeningRef.current && !manualStopRef.current && !engineListeningRef.current) {
-                    try {
-                        recognitionRef.current?.start?.();
-                    } catch (e) {
-                        console.error('Erreur start STT web:', e);
-                    }
-                }
-            }, 50);
-        }, delay);
-    };
-
-    const startWebSpeech = async ({ resetText = true } = {}) => {
-        const recognition = recognitionRef.current || initSpeechRecognition();
-        if (!recognition) return false;
-
-        recognitionRef.current = recognition;
-        isListeningRef.current = true;
-        manualStopRef.current = false;
-        setIsRecording(true);
-        setSttError('');
-
-        if (resetText) {
-            sessionTextRef.current = '';
-            partialTextRef.current = '';
-            setTranscript('');
-        }
-
-        try {
-            recognition.stop();
-        } catch { }
-
-        try {
-            recognition.start();
-            return true;
-        } catch (error) {
-            console.error('Erreur STT web:', error);
             return false;
         }
+
+        if (recognizerRef.current) recognizerRef.current.destroy();
+
+        const rec = createVoiceRecognizer({
+            lang: language === 'multi' ? '' : language,
+            continuous: true,
+            interimResults: true,
+            maxAlternatives: 10,
+            autoRestart: true,
+            restartDebounceMs: 500,
+            punctuation: true,
+        });
+
+        rec.onResult(({ fullText }) => {
+            setTranscript(fullText);
+            setSttError('');
+        });
+
+        rec.onError(({ error, message }) => {
+            if (error === 'not-allowed' || error === 'service-not-allowed') {
+                setSttAvailable(false);
+            }
+            setSttError(`❌ ${message}`);
+        });
+
+        rec.onStateChange(({ state }) => {
+            if (state === 'listening' || state === 'restarting') {
+                setIsRecording(true);
+            }
+        });
+
+        recognizerRef.current = rec;
+
+        if (resetText) setTranscript('');
+        const ok = rec.start(resetText);
+        if (ok) {
+            setIsRecording(true);
+            setSttError('');
+        }
+        return ok;
     };
 
     const stopWebSpeech = () => {
-        restartTokenRef.current += 1;
-        manualStopRef.current = true;
-        isListeningRef.current = false;
-        engineListeningRef.current = false;
-        restartPendingRef.current = false;
-
-        const partial = partialTextRef.current.trim();
-        if (partial) {
-            appendFinalText(partial);
-        }
-        partialTextRef.current = '';
-        updateTranscriptFromRefs();
-
-        try {
-            recognitionRef.current?.stop?.();
-        } catch (e) {
-            console.error('Erreur arrêt STT web:', e);
-        }
+        recognizerRef.current?.stop();
     };
 
     const startMediaRecorderFallback = async () => {
@@ -962,8 +784,7 @@ export default function LiveTranscription({ onBack, user }) {
         }
         if (isProcessingRef.current) return;
 
-        // FORCE BACKEND WHISPER FOR BETTER QUALITY (SCIENTIFIC TERMS / FAR FIELD)
-        const started = await startWebSpeech({ resetText: true });
+        const started = startWebSpeech({ resetText: true });
         if (started) return;
 
         try {

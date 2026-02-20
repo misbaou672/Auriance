@@ -6,10 +6,11 @@ import ToolsMenu from '../components/ToolsMenu';
 import LiveTranscription from './LiveTranscription';
 import GeneratedQueriesTool from '../components/GeneratedQueriesTool';
 import SettingsPage from './settings/SettingsPage';
+import AssistantMedical from './AssistantMedical';
 
 import HistoryPage from './HistoryPage';
 import { saveTranscription, exportTranscriptionPdf } from '../services/api';
-import { sttService } from '../services/stt_web';
+import { createVoiceRecognizer } from '../../sdk/auriance-voice-sdk.js';
 
 import { useLanguage } from '../contexts/LanguageContext';
 
@@ -51,20 +52,27 @@ export default function VoiceRecognitionWithSidebar({ user, onLogout, onBack }) 
         return () => clearInterval(interval);
     }, [isRecording]);
 
+    const recognizerRef = useRef(null);
+
+    // Cleanup on unmount
+    useEffect(() => {
+        return () => recognizerRef.current?.destroy();
+    }, []);
+
     const toggleRecording = () => {
         if (isRecording) {
-            sttService.stop();
+            recognizerRef.current?.stop();
             setIsRecording(false);
         } else {
-            // Initialiser avec la langue actuelle
             const locale = t('locale') || 'fr-FR';
-            sttService.initialize(locale);
-            sttService.start(({ final, interim }) => {
-                if (final) {
-                    setTranscript(prev => prev + final + ' ');
-                }
-                setInterimTranscript(interim);
+            if (recognizerRef.current) recognizerRef.current.destroy();
+            const rec = createVoiceRecognizer({ lang: locale, autoRestart: true });
+            rec.onResult(({ final: f, interim: i }) => {
+                setTranscript(f);
+                setInterimTranscript(i);
             });
+            recognizerRef.current = rec;
+            rec.start();
             setIsRecording(true);
         }
     };
@@ -142,6 +150,8 @@ export default function VoiceRecognitionWithSidebar({ user, onLogout, onBack }) 
             setCurrentView('generated_queries');
         } else if (toolId === 'settings') {
             setCurrentView('settings');
+        } else if (toolId === 'assistant_medical') {
+            setCurrentView('assistant_medical');
         }
     };
 
@@ -173,6 +183,11 @@ export default function VoiceRecognitionWithSidebar({ user, onLogout, onBack }) 
     // Afficher l'historique
     if (currentView === 'history') {
         return <HistoryPage onBack={() => setCurrentView('menu')} user={user} />;
+    }
+
+    // Afficher l'assistant medical
+    if (currentView === 'assistant_medical') {
+        return <AssistantMedical onBack={() => setCurrentView('menu')} user={user} />;
     }
 
     // Afficher les paramètres

@@ -34,6 +34,7 @@ import {
 } from "lucide-react";
 import { VoiceWave } from "./VoiceWave";
 import { saveConsultation, savePdf, saveTranscription, exportTranscriptionPdf, saveExtraction } from "../services/api";
+import { createVoiceRecognizer, isWebSpeechSupported } from '../../sdk/auriance-voice-sdk.js';
 import { useLanguage } from '../contexts/LanguageContext';
 
 // Mapping from global language code to speech recognition locale
@@ -380,7 +381,19 @@ export default function AutoFormPage({ onBack }) {
     // STT State
     const [isListening, setIsListening] = useState(false);
     const [transcript, setTranscript] = useState("");
-    const recognitionRef = useRef(null);
+    const recognizerRef = useRef(null);
+
+    // SDK recognizer lifecycle
+    useEffect(() => {
+        recognizerRef.current = createVoiceRecognizer({ lang: language });
+        recognizerRef.current.onResult(({ fullText }) => setTranscript(fullText));
+        recognizerRef.current.onError(({ message }) => {
+            console.error("Speech recognition error:", message);
+            setIsListening(false);
+            setIsGenerating(false);
+        });
+        return () => recognizerRef.current?.destroy();
+    }, [language]);
 
     // Update fields when form type or language changes
     useEffect(() => {
@@ -463,44 +476,18 @@ export default function AutoFormPage({ onBack }) {
     };
 
     const startListening = () => {
-        if (!('webkitSpeechRecognition' in window)) {
-            showModal({ type: 'error', title: 'Erreur Navigateur', message: "Votre navigateur ne supporte pas la reconnaissance vocale." });
+        if (!isWebSpeechSupported()) {
+            showModal({ type: 'error', title: 'Erreur Navigateur', message: t.modalErrorSTT || "Votre navigateur ne supporte pas la reconnaissance vocale." });
             return;
         }
-
-        const recognition = new window.webkitSpeechRecognition();
-        recognition.lang = language;
-        recognition.continuous = true;
-        recognition.interimResults = true;
-
-        recognition.onstart = () => {
-            setIsListening(true);
-            setIsGenerating(true);
-            if (!isGenerated) setIsGenerated(true);
-        };
-
-        recognition.onresult = (event) => {
-            let finalTranscript = '';
-            for (let i = 0; i < event.results.length; ++i) {
-                finalTranscript += event.results[i][0].transcript;
-            }
-            setTranscript(finalTranscript);
-        };
-
-        recognition.onerror = (event) => {
-            console.error("Speech recognition error", event.error);
-            setIsListening(false);
-            setIsGenerating(false);
-        };
-
-        recognitionRef.current = recognition;
-        recognition.start();
+        recognizerRef.current?.start();
+        setIsListening(true);
+        setIsGenerating(true);
+        if (!isGenerated) setIsGenerated(true);
     };
 
     const stopListening = () => {
-        if (recognitionRef.current) {
-            recognitionRef.current.stop();
-        }
+        recognizerRef.current?.stop();
         setIsListening(false);
         setIsGenerating(false);
     };

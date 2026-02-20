@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mic, FileText, History, Settings, LogOut, Sparkles, Terminal, Database, GitBranch, Sun, Moon, ChevronRight, ArrowLeft } from 'lucide-react';
+import { Mic, FileText, History, Settings, LogOut, Sparkles, Terminal, Database, GitBranch, Sun, Moon, ChevronRight, ArrowLeft, Brain } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 export default function ToolsMenu({ onSelectTool, onLogout, onBack, user }) {
@@ -39,6 +39,14 @@ export default function ToolsMenu({ onSelectTool, onLogout, onBack, user }) {
             color: '#f59e0b', // Amber
             description: t('dashboard.toolsMenu.generatedQueries.desc'),
             accent: 'amber'
+        },
+        {
+            id: 'assistant_medical',
+            name: 'Assistant Medical',
+            icon: Brain,
+            color: '#ec4899', // Pink
+            description: 'Interrogez vos donnees, analysez les transcriptions et generez des rapports patients avec l\'IA.',
+            accent: 'pink'
         },
         {
             id: 'settings',

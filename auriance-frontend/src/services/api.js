@@ -286,3 +286,94 @@ export const deleteExtraction = async (id) => {
         throw new Error('Failed to delete extraction');
     }
 };
+
+
+// ===== ASSISTANT MEDICAL API =====
+
+export const assistantQuery = async (question, language = 'fr') => {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`${API_BASE_URL}/api/assistant/query`, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ question, language }),
+    });
+    if (!response.ok) {
+        const error = await response.json().catch(() => ({}));
+        throw new Error(error.detail || "L'assistant IA est temporairement indisponible.");
+    }
+    return response.json();
+};
+
+export const getAssistantSchema = async () => {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`${API_BASE_URL}/api/assistant/schema`, {
+        headers: { 'Authorization': `Bearer ${token}` },
+    });
+    if (!response.ok) throw new Error('Failed to fetch schema');
+    return response.json();
+};
+
+export const analyzeTranscription = async (transcriptionId) => {
+    const token = localStorage.getItem('token');
+    const response = await fetch(
+        `${API_BASE_URL}/api/assistant/transcriptions/${transcriptionId}/analyze`,
+        {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${token}` },
+        }
+    );
+    if (!response.ok) {
+        const error = await response.json().catch(() => ({}));
+        throw new Error(error.detail || 'Analysis failed');
+    }
+    return response.json();
+};
+
+export const getFilteredTranscriptions = async (filters = {}) => {
+    const token = localStorage.getItem('token');
+    const params = new URLSearchParams();
+    Object.entries(filters).forEach(([key, value]) => {
+        if (value !== null && value !== undefined && value !== '') {
+            params.append(key, value);
+        }
+    });
+    const response = await fetch(
+        `${API_BASE_URL}/api/assistant/transcriptions?${params.toString()}`,
+        { headers: { 'Authorization': `Bearer ${token}` } }
+    );
+    if (!response.ok) throw new Error('Failed to fetch transcriptions');
+    return response.json();
+};
+
+export const generatePatientReport = async (data) => {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`${API_BASE_URL}/api/assistant/reports/generate`, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    });
+    if (!response.ok) {
+        const error = await response.json().catch(() => ({}));
+        throw new Error(error.detail || 'Report generation failed');
+    }
+    return response.json();
+};
+
+export const linkTranscriptionToPatient = async (transcriptionId, patientId) => {
+    const token = localStorage.getItem('token');
+    const response = await fetch(
+        `${API_BASE_URL}/api/assistant/transcriptions/${transcriptionId}/link-patient/${patientId}`,
+        {
+            method: 'PUT',
+            headers: { 'Authorization': `Bearer ${token}` },
+        }
+    );
+    if (!response.ok) throw new Error('Failed to link transcription');
+    return response.json();
+};
