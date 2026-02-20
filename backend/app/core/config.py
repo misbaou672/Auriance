@@ -32,6 +32,9 @@ API_TITLE = "AURIANCE API"
 API_VERSION = "2.0.0"
 API_DESCRIPTION = "Voice-to-Action Intelligence Platform"
 
+# Gemini AI
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
+
 # CORS
 CORS_ORIGINS = [
     "http://localhost:3000", 

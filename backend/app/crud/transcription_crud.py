@@ -15,7 +15,10 @@ def create_transcription(db: Session, transcription: TranscriptionCreate, user_i
         audio_file_path=transcription.audio_file_path,
         duration_seconds=transcription.duration_seconds,
         confidence_score=transcription.confidence_score,
-        type=transcription.type
+        type=transcription.type,
+        patient_id=getattr(transcription, "patient_id", None),
+        type_session=getattr(transcription, "type_session", None),
+        priorite=getattr(transcription, "priorite", None),
     )
     db.add(db_transcription)
     db.commit()
@@ -41,6 +44,44 @@ def delete_transcription(db: Session, transcription_id: int) -> bool:
         db.commit()
         return True
     return False
+
+
+def get_user_transcriptions_filtered(
+    db: Session,
+    user_id: int,
+    type_session=None,
+    priorite=None,
+    analysee=None,
+    patient_id=None,
+    skip: int = 0,
+    limit: int = 100,
+):
+    """Get transcriptions with optional filters for the assistant."""
+    query = db.query(Transcription).filter(Transcription.user_id == user_id)
+    if type_session:
+        query = query.filter(Transcription.type_session == type_session)
+    if priorite:
+        query = query.filter(Transcription.priorite == priorite)
+    if analysee is not None:
+        query = query.filter(Transcription.analysee == analysee)
+    if patient_id:
+        query = query.filter(Transcription.patient_id == patient_id)
+    return query.order_by(Transcription.created_at.desc()).offset(skip).limit(limit).all()
+
+
+def update_transcription_analysis(db: Session, transcription_id: int, analysis: dict) -> Transcription:
+    """Update transcription with Gemini analysis results."""
+    transcription = get_transcription(db, transcription_id)
+    if transcription:
+        transcription.resume_ia = analysis.get("resume_ia")
+        transcription.points_cles = analysis.get("points_cles")
+        transcription.entites_detectees = analysis.get("entites_detectees")
+        transcription.type_session = analysis.get("type_session")
+        transcription.priorite = analysis.get("priorite")
+        transcription.analysee = True
+        db.commit()
+        db.refresh(transcription)
+    return transcription
 
 
 # ===== EXTRACTION CRUD =====

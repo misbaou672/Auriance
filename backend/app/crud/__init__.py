@@ -23,6 +23,8 @@ __all__ = [
     "get_user_extractions",
     "update_extraction",
     "delete_extraction",
+    "get_user_transcriptions_filtered",
+    "update_transcription_analysis",
     "create_report",
     "get_report",
     "get_user_reports",

@@ -20,11 +20,22 @@ class Transcription(Base):
     duration_seconds = Column(Float)  # in seconds
     confidence_score = Column(Float)  # 0-100 or 0-1
     type = Column(String(50), nullable=True)  # medical, biodiversity, construction
+
+    # Assistant Medical fields
+    patient_id = Column(Integer, ForeignKey("patients.id"), nullable=True)
+    resume_ia = Column(Text, nullable=True)
+    points_cles = Column(JSON, nullable=True)
+    entites_detectees = Column(JSON, nullable=True)
+    type_session = Column(String(50), nullable=True)  # consultation, urgence, suivi, autre
+    priorite = Column(String(20), nullable=True)  # basse, normale, haute, critique
+    analysee = Column(Boolean, default=False)
+
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-    
+
     # Relationships
     user = relationship("User", back_populates="transcriptions")
+    patient = relationship("Patient", backref="transcriptions")
     extraction = relationship("Extraction", back_populates="transcription", uselist=False, cascade="all, delete-orphan")
     reports = relationship("Report", back_populates="transcription", cascade="all, delete-orphan")
     

@@ -39,6 +39,7 @@ from app.api.routes.translation_routes import router as translation_router
 from app.api.routes.voice_stream_routes import router as voice_stream_router
 from app.api.routes.voice_recognition_routes import router as voice_recognition_router
 from app.api.routes.chatbot_routes import router as chatbot_router
+from app.api.routes.assistant_routes import router as assistant_router
 
 # Importer DB
 from app.db.session import init_db
@@ -155,6 +156,7 @@ app.include_router(translation_router)
 app.include_router(voice_stream_router)
 app.include_router(voice_recognition_router)
 app.include_router(chatbot_router)
+app.include_router(assistant_router)
 
 # ==================== TRANSLATION SHORTCUTS ====================
 @app.get("/translation/languages")

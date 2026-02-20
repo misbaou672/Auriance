@@ -38,6 +38,9 @@ class TranscriptionCreate(BaseModel):
     duration_seconds: Optional[float] = None
     confidence_score: Optional[float] = None
     type: Optional[str] = None  # medical, biodiversity, construction
+    patient_id: Optional[int] = None
+    type_session: Optional[str] = None
+    priorite: Optional[str] = None
 
 
 class TranscriptionResponse(BaseModel):
@@ -49,8 +52,15 @@ class TranscriptionResponse(BaseModel):
     duration_seconds: Optional[float]
     confidence_score: Optional[float]
     type: Optional[str] = None
+    patient_id: Optional[int] = None
+    resume_ia: Optional[str] = None
+    points_cles: Optional[list] = None
+    entites_detectees: Optional[dict] = None
+    type_session: Optional[str] = None
+    priorite: Optional[str] = None
+    analysee: Optional[bool] = False
     created_at: datetime
-    
+
     class Config:
         from_attributes = True
 
@@ -197,3 +207,17 @@ class TranscriptionExportRequest(BaseModel):
     language: str = "fr"
     duration: Optional[float] = None
     type: Optional[str] = None # medical, biodiversity, construction, live
+
+
+# ===== ASSISTANT MEDICAL SCHEMAS =====
+class AssistantQueryRequest(BaseModel):
+    question: str
+    language: str = "fr"
+
+
+class PatientReportRequest(BaseModel):
+    patient_id: int
+    report_type: str = "medical"
+    date_from: Optional[str] = None
+    date_to: Optional[str] = None
+    format: str = "markdown"
