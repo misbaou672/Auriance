@@ -1,0 +1,1356 @@
+{
+  "database": "ICU_Admission",
+  "export_date": "2026-03-01",
+  "description": "AURIANCE - Export Base Documentaire MongoDB (FHIR Medical Data)",
+  "collections": {
+    "encounters": {
+      "count": 7,
+      "documents": [
+        {
+          "_id": "encounter-456",
+          "resourceType": "Encounter",
+          "status": "in-progress",
+          "class": "ICU",
+          "patient": {
+            "reference": "Patient/patient-123"
+          },
+          "period": {
+            "start": "2025-03-20T10:00:00Z",
+            "end": null
+          },
+          "reasonCode": [
+            {
+              "text": "Sepsis"
+            }
+          ],
+          "serviceType": {
+            "text": "Réanimation polyvalente"
+          },
+          "location": [
+            {
+              "location": {
+                "display": "CHU Paris - Unité 3 - Lit 4"
+              },
+              "status": "active"
+            }
+          ],
+          "participant": [
+            {
+              "individual": {
+                "reference": "Practitioner/doctor-456",
+                "display": "Dr. Moreau"
+              },
+              "type": [
+                {
+                  "text": "Attending physician"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "_id": "encounter-1744054452492",
+          "resourceType": "Encounter",
+          "status": "in-progress",
+          "class": "ICU",
+          "patient": {
+            "reference": "Patient/patient-124"
+          },
+          "period": {
+            "start": "2025-04-07T21:32",
+            "end": null
+          },
+          "reasonCode": [
+            {
+              "text": "douleur toracique"
+            }
+          ],
+          "serviceType": {
+            "text": ""
+          },
+          "location": [
+            {
+              "location": {
+                "display": "CHU paris"
+              },
+              "status": "active"
+            }
+          ],
+          "participant": [
+            {
+              "individual": {
+                "reference": "Practicioner/123",
+                "display": "Bismuth"
+              },
+              "type": [
+                {
+                  "text": ""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "_id": "encounter-1744055306502",
+          "resourceType": "Encounter",
+          "status": "in-progress",
+          "class": "ICU",
+          "patient": {
+            "reference": "Patient/patient-125"
+          },
+          "period": {
+            "start": "",
+            "end": null
+          },
+          "reasonCode": [
+            {
+              "text": "douleur toracique"
+            }
+          ],
+          "serviceType": {
+            "text": ""
+          },
+          "location": [
+            {
+              "location": {
+                "display": "CHU paris"
+              },
+              "status": "active"
+            }
+          ],
+          "participant": [
+            {
+              "individual": {
+                "reference": "Practicioner/123",
+                "display": "Bismuth"
+              },
+              "type": [
+                {
+                  "text": ""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "_id": "encounter-1744057338388",
+          "resourceType": "Encounter",
+          "status": "in-progress",
+          "class": "ICU",
+          "patient": {
+            "reference": "Patient/patient-127"
+          },
+          "period": {
+            "start": "",
+            "end": null
+          },
+          "reasonCode": [
+            {
+              "text": "douleur toracique"
+            }
+          ],
+          "serviceType": {
+            "text": ""
+          },
+          "location": [
+            {
+              "location": {
+                "display": "CHU paris"
+              },
+              "status": "active"
+            }
+          ],
+          "participant": [
+            {
+              "individual": {
+                "reference": "Practicioner/123",
+                "display": "Bismuth"
+              },
+              "type": [
+                {
+                  "text": ""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "_id": "encounter-1744057747214",
+          "resourceType": "Encounter",
+          "status": "in-progress",
+          "class": "ICU",
+          "patient": {
+            "reference": "Patient/patient-200"
+          },
+          "period": {
+            "start": "",
+            "end": null
+          },
+          "reasonCode": [
+            {
+              "text": "douleur toracique"
+            }
+          ],
+          "serviceType": {
+            "text": ""
+          },
+          "location": [
+            {
+              "location": {
+                "display": "CHU paris"
+              },
+              "status": "active"
+            }
+          ],
+          "participant": [
+            {
+              "individual": {
+                "reference": "Practicioner/123",
+                "display": "Bismuth"
+              },
+              "type": [
+                {
+                  "text": ""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "_id": "encounter-1744058146784",
+          "resourceType": "Encounter",
+          "status": "in-progress",
+          "class": "ICU",
+          "patient": {
+            "reference": "Patient/patient-201"
+          },
+          "period": {
+            "start": "",
+            "end": null
+          },
+          "reasonCode": [
+            {
+              "text": "douleur craniène"
+            }
+          ],
+          "serviceType": {
+            "text": ""
+          },
+          "location": [
+            {
+              "location": {
+                "display": "CHU paris"
+              },
+              "status": "active"
+            }
+          ],
+          "participant": [
+            {
+              "individual": {
+                "reference": "Practicioner/123",
+                "display": "Bismuth"
+              },
+              "type": [
+                {
+                  "text": ""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "_id": "encounter-1744059478403",
+          "resourceType": "Encounter",
+          "status": "in-progress",
+          "class": "ICU",
+          "patient": {
+            "reference": "Patient/patient-300"
+          },
+          "period": {
+            "start": "",
+            "end": null
+          },
+          "reasonCode": [
+            {
+              "text": ""
+            }
+          ],
+          "serviceType": {
+            "text": ""
+          },
+          "location": [
+            {
+              "location": {
+                "display": ""
+              },
+              "status": "active"
+            }
+          ],
+          "participant": [
+            {
+              "individual": {
+                "reference": "",
+                "display": ""
+              },
+              "type": [
+                {
+                  "text": ""
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "imagingStudies": {
+      "count": 1,
+      "documents": [
+        {
+          "_id": "image-004",
+          "resourceType": "ImagingStudy",
+          "status": "available",
+          "subject": {
+            "reference": "Patient/patient-123"
+          },
+          "started": "2025-03-20T14:00:00Z",
+          "description": "Échographie abdominale",
+          "modality": [
+            {
+              "code": "US",
+              "display": "Ultrasound"
+            }
+          ],
+          "numberOfSeries": 1,
+          "numberOfInstances": 1,
+          "series": [
+            {
+              "uid": "series-01",
+              "modality": {
+                "code": "US",
+                "display": "Ultrasound"
+              },
+              "description": "Abdomen",
+              "numberOfInstances": 1,
+              "bodySite": {
+                "text": "Abdomen"
+              },
+              "instance": [
+                {
+                  "uid": "instance-01",
+                  "sopClass": "1.2.840.10008.5.1.4.1.1.2",
+                  "title": "Abdominal Echo",
+                  "url": "https://server.com/images/echo456.jpg"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "patients": {
+      "count": 7,
+      "documents": [
+        {
+          "_id": "patient-123",
+          "resourceType": "Patient",
+          "name": "John Doe",
+          "birthDate": "1980-05-12",
+          "gender": "male",
+          "telecom": [
+            {
+              "system": "phone",
+              "value": "+33123456789",
+              "use": "mobile"
+            },
+            {
+              "system": "email",
+              "value": "john.doe@example.com",
+              "use": "home"
+            }
+          ],
+          "address": [
+            {
+              "use": "home",
+              "line": [
+                "123 Rue de Paris"
+              ],
+              "city": "Paris",
+              "postalCode": "75000",
+              "country": "France"
+            }
+          ],
+          "identifier": [
+            {
+              "system": "https://fhir.fr/ssn",
+              "value": "1234567890123"
+            }
+          ],
+          "maritalStatus": {
+            "text": "Married"
+          },
+          "communication": [
+            {
+              "language": {
+                "text": "French"
+              },
+              "preferred": true
+            }
+          ]
+        },
+        {
+          "_id": "patient-124",
+          "resourceType": "Patient",
+          "name": "Durand",
+          "birthDate": "2015-06-17",
+          "gender": "male",
+          "telecom": [
+            {
+              "system": "phone",
+              "value": "0169112233",
+              "use": "mobile"
+            },
+            {
+              "system": "email",
+              "value": "durand@gmail.com",
+              "use": "home"
+            }
+          ],
+          "address": [
+            {
+              "use": "home",
+              "line": [
+                "1 rue de l'avenir"
+              ],
+              "city": "Juvisy/orge",
+              "postalCode": "91200",
+              "country": "france"
+            }
+          ],
+          "identifier": [
+            {
+              "system": "https://fhir.fr/ssn",
+              "value": "1152555112333"
+            }
+          ],
+          "maritalStatus": {
+            "text": "marié"
+          },
+          "communication": [
+            {
+              "language": {
+                "text": "français"
+              },
+              "preferred": true
+            }
+          ]
+        },
+        {
+          "_id": "patient-125",
+          "resourceType": "Patient",
+          "name": "Dupont",
+          "birthDate": "",
+          "gender": "male",
+          "telecom": [
+            {
+              "system": "phone",
+              "value": "0169112233",
+              "use": "mobile"
+            },
+            {
+              "system": "email",
+              "value": "dupont@gmail.com",
+              "use": "home"
+            }
+          ],
+          "address": [
+            {
+              "use": "home",
+              "line": [
+                "1 rue de l'avenir"
+              ],
+              "city": "Juvisy/orge",
+              "postalCode": "91200",
+              "country": "france"
+            }
+          ],
+          "identifier": [
+            {
+              "system": "https://fhir.fr/ssn",
+              "value": "1152555112333"
+            }
+          ],
+          "maritalStatus": {
+            "text": "marié"
+          },
+          "communication": [
+            {
+              "language": {
+                "text": "français"
+              },
+              "preferred": true
+            }
+          ]
+        },
+        {
+          "_id": "patient-127",
+          "resourceType": "Patient",
+          "name": "Owen",
+          "birthDate": "2025-04-07",
+          "gender": "male",
+          "telecom": [
+            {
+              "system": "phone",
+              "value": "0169112234",
+              "use": "mobile"
+            },
+            {
+              "system": "email",
+              "value": "owen@gmail.com",
+              "use": "home"
+            }
+          ],
+          "address": [
+            {
+              "use": "home",
+              "line": [
+                "4 rue de l'avenir"
+              ],
+              "city": "Juvisy/orge",
+              "postalCode": "91200",
+              "country": "france"
+            }
+          ],
+          "identifier": [
+            {
+              "system": "https://fhir.fr/ssn",
+              "value": "115255511433"
+            }
+          ],
+          "maritalStatus": {
+            "text": "marié"
+          },
+          "communication": [
+            {
+              "language": {
+                "text": "français"
+              },
+              "preferred": true
+            }
+          ]
+        },
+        {
+          "_id": "patient-200",
+          "resourceType": "Patient",
+          "name": "Owana",
+          "birthDate": "",
+          "gender": "male",
+          "telecom": [
+            {
+              "system": "phone",
+              "value": "0169112234",
+              "use": "mobile"
+            },
+            {
+              "system": "email",
+              "value": "owana@gmail.com",
+              "use": "home"
+            }
+          ],
+          "address": [
+            {
+              "use": "home",
+              "line": [
+                "4 rue de l'avenir"
+              ],
+              "city": "Juvisy/orge",
+              "postalCode": "91200",
+              "country": "france"
+            }
+          ],
+          "identifier": [
+            {
+              "system": "https://fhir.fr/ssn",
+              "value": "115255511433"
+            }
+          ],
+          "maritalStatus": {
+            "text": "marié"
+          },
+          "communication": [
+            {
+              "language": {
+                "text": "français"
+              },
+              "preferred": true
+            }
+          ]
+        },
+        {
+          "_id": "patient-201",
+          "resourceType": "Patient",
+          "name": "Smith",
+          "birthDate": "2025-04-07",
+          "gender": "male",
+          "telecom": [
+            {
+              "system": "phone",
+              "value": "02515151",
+              "use": "mobile"
+            },
+            {
+              "system": "email",
+              "value": "smith@gmail.com",
+              "use": "home"
+            }
+          ],
+          "address": [
+            {
+              "use": "home",
+              "line": [
+                "5 rue de l'avenir"
+              ],
+              "city": "Juvisy/orge",
+              "postalCode": "91200",
+              "country": "france"
+            }
+          ],
+          "identifier": [
+            {
+              "system": "https://fhir.fr/ssn",
+              "value": "115255511433"
+            }
+          ],
+          "maritalStatus": {
+            "text": "marié"
+          },
+          "communication": [
+            {
+              "language": {
+                "text": "français"
+              },
+              "preferred": true
+            }
+          ]
+        },
+        {
+          "_id": "patient-300",
+          "resourceType": "Patient",
+          "name": "oner",
+          "birthDate": "",
+          "gender": "male",
+          "telecom": [
+            {
+              "system": "phone",
+              "value": "",
+              "use": "mobile"
+            },
+            {
+              "system": "email",
+              "value": "oner@gmail.com",
+              "use": "home"
+            }
+          ],
+          "address": [
+            {
+              "use": "home",
+              "line": [
+                ""
+              ],
+              "city": "",
+              "postalCode": "",
+              "country": ""
+            }
+          ],
+          "identifier": [
+            {
+              "system": "https://fhir.fr/ssn",
+              "value": ""
+            }
+          ],
+          "maritalStatus": {
+            "text": ""
+          },
+          "communication": [
+            {
+              "language": {
+                "text": ""
+              },
+              "preferred": true
+            }
+          ]
+        }
+      ]
+    },
+    "procedures": {
+      "count": 2,
+      "documents": [
+        {
+          "_id": "procedure-003",
+          "resourceType": "Procedure",
+          "status": "completed",
+          "code": {
+            "text": "Échographie abdominale"
+          },
+          "subject": {
+            "reference": "Patient/patient-123"
+          },
+          "performer": {
+            "actor": {
+              "reference": "Practitioner/doctor-456",
+              "display": "Dr. Moreau"
+            },
+            "function": {
+              "text": "Radiologue"
+            }
+          },
+          "report": {
+            "reference": "DiagnosticReport/report-004"
+          },
+          "bodySite": {
+            "text": "Abdomen"
+          },
+          "reasonCode": [
+            {
+              "text": "Douleurs abdominales"
+            }
+          ],
+          "outcome": {
+            "text": "Aucune anomalie"
+          },
+          "performedDateTime": "2025-03-20T12:30:00Z"
+        },
+        {
+          "_id": "procedure-1744058284920",
+          "resourceType": "Procedure",
+          "status": "completed",
+          "code": {
+            "text": "electrocardiograme"
+          },
+          "subject": {
+            "reference": "Patient/patient-201"
+          },
+          "performer": {
+            "actor": {
+              "reference": "",
+              "display": "Dr Blue"
+            },
+            "function": {
+              "text": ""
+            }
+          },
+          "bodySite": {
+            "text": ""
+          },
+          "reasonCode": [
+            {
+              "text": ""
+            }
+          ],
+          "outcome": {
+            "text": ""
+          },
+          "performedDateTime": "",
+          "report": {
+            "reference": ""
+          }
+        }
+      ]
+    },
+    "diagnosticReports": {
+      "count": 3,
+      "documents": [
+        {
+          "_id": "report-004",
+          "resourceType": "DiagnosticReport",
+          "status": "final",
+          "category": {
+            "text": "Ultrasound"
+          },
+          "code": {
+            "text": "Échographie abdominale"
+          },
+          "subject": {
+            "reference": "Patient/patient-123"
+          },
+          "effectiveDateTime": "2025-03-20T14:30:00Z",
+          "conclusion": "Aucune anomalie détectée dans l'abdomen.",
+          "imagingStudy": {
+            "reference": "ImagingStudy/image-004"
+          },
+          "result": [
+            {
+              "reference": "Observation/obs-004"
+            }
+          ],
+          "presentedForm": [
+            {
+              "contentType": "application/pdf",
+              "url": "https://server.com/reports/report-004.pdf",
+              "title": "Rapport échographie"
+            }
+          ]
+        },
+        {
+          "_id": "diagnosticReport-1744059560864",
+          "resourceType": "DiagnosticReport",
+          "status": "final",
+          "category": {
+            "text": ""
+          },
+          "code": {
+            "text": ""
+          },
+          "subject": {
+            "reference": "Patient/patient-777"
+          },
+          "effectiveDateTime": "",
+          "conclusion": "",
+          "imagingStudy": {
+            "reference": ""
+          },
+          "result": [
+            {
+              "reference": ""
+            }
+          ],
+          "presentedForm": [
+            {
+              "contentType": "application/pdf",
+              "url": "",
+              "title": ""
+            }
+          ]
+        },
+        {
+          "_id": "diagnosticReport-1744059573426",
+          "resourceType": "DiagnosticReport",
+          "category": {},
+          "code": {},
+          "subject": {
+            "reference": "Patient/undefined"
+          },
+          "imagingStudy": {},
+          "result": [
+            {
+              "reference": "va"
+            },
+            {
+              "reference": "vaaa"
+            }
+          ],
+          "presentedForm": [
+            {}
+          ]
+        }
+      ]
+    },
+    "tasks": {
+      "count": 18,
+      "documents": [
+        {
+          "_id": "67e01d86654c2f4fd456f95c",
+          "role": "Infirmier",
+          "patientId": "patient-123",
+          "dateTime": "2025-03-20T10:00:00",
+          "type_task": "encounter",
+          "id_type": "encounter-456",
+          "actions": [
+            {
+              "label": "Remplir le formulaire d'admission",
+              "path": "/admission"
+            }
+          ]
+        },
+        {
+          "_id": "67e01d86654c2f4fd456f95d",
+          "role": "Infirmier",
+          "patientId": "patient-123",
+          "dateTime": "2025-03-20T10:30:00",
+          "type_task": "patient",
+          "id_type": "patient-123",
+          "actions": [
+            {
+              "label": "Voir résumé patient",
+              "path": "/patient-summary"
+            }
+          ]
+        },
+        {
+          "_id": "67e01d86654c2f4fd456f95e",
+          "role": "Infirmier",
+          "patientId": "patient-123",
+          "dateTime": "2025-03-20T11:00:00",
+          "type_task": "observation",
+          "id_type": "obs-001",
+          "actions": [
+            {
+              "label": "Voir les commentaires du médecin",
+              "path": "/doctor-comments"
+            }
+          ]
+        },
+        {
+          "_id": "67e01d86654c2f4fd456f95f",
+          "role": "Médecin",
+          "patientId": "patient-123",
+          "dateTime": "2025-03-20T12:00:00",
+          "type_task": "observation",
+          "id_type": "obs-002",
+          "actions": [
+            {
+              "label": "Faire une observation",
+              "path": "/observation"
+            }
+          ]
+        },
+        {
+          "_id": "67e01d86654c2f4fd456f960",
+          "role": "Médecin",
+          "patientId": "patient-123",
+          "dateTime": "2025-03-20T12:30:00",
+          "type_task": "procedure",
+          "id_type": "procedure-003",
+          "actions": [
+            {
+              "label": "Ordonner une radio",
+              "path": "/order-imaging"
+            }
+          ]
+        },
+        {
+          "_id": "67e01d86654c2f4fd456f961",
+          "role": "Radiologue",
+          "patientId": "patient-123",
+          "dateTime": "2025-03-20T14:00:00",
+          "type_task": "imagingStudy",
+          "id_type": "image-004",
+          "actions": [
+            {
+              "label": "Uploader une image",
+              "path": "/upload-image"
+            }
+          ]
+        },
+        {
+          "_id": "67e01d86654c2f4fd456f962",
+          "role": "Radiologue",
+          "patientId": "patient-123",
+          "dateTime": "2025-03-20T14:30:00",
+          "type_task": "diagnosticReport",
+          "id_type": "report-004",
+          "actions": [
+            {
+              "label": "Écrire un rapport radio",
+              "path": "/radiology-report"
+            }
+          ]
+        },
+        {
+          "_id": "67f428b4a1f6626392687888",
+          "role": "Infirmier",
+          "patientId": "patient-124",
+          "dateTime": "2025-04-07T17:30:00",
+          "type_task": "encounter",
+          "id_type": "encounter-1744054452492",
+          "actions": [
+            {
+              "label": "Remplir le formulaire d'admission",
+              "path": "/admission"
+            }
+          ]
+        },
+        {
+          "_id": "67f42c0a9c6629edb98853e2",
+          "role": "Infirmier",
+          "patientId": "patient-125",
+          "dateTime": "2025-04-07T17:46:00",
+          "type_task": "encounter",
+          "id_type": "encounter-1744055306502",
+          "actions": [
+            {
+              "label": "Remplir le formulaire d'admission",
+              "path": "/admission"
+            }
+          ]
+        },
+        {
+          "_id": "67f42cb39c6629edb98853e3",
+          "role": "Médecin",
+          "patientId": "patient-125",
+          "dateTime": "2025-04-07T17:50:00",
+          "type_task": "observation",
+          "id_type": "observation-1744055475318",
+          "actions": [
+            {
+              "label": "Faire une observation",
+              "path": "/observation"
+            }
+          ]
+        },
+        {
+          "_id": "67f433fa9a98c378c6cef9d5",
+          "role": "Infirmier",
+          "patientId": "patient-127",
+          "dateTime": "2025-04-07T18:21:00",
+          "type_task": "encounter",
+          "id_type": "encounter-1744057338388",
+          "actions": [
+            {
+              "label": "Remplir le formulaire d'admission",
+              "path": "/admission"
+            }
+          ]
+        },
+        {
+          "_id": "67f43593ba49bbc05998869b",
+          "role": "Infirmier",
+          "patientId": "patient-200",
+          "dateTime": "2025-04-07T18:28:00",
+          "type_task": "encounter",
+          "id_type": "encounter-1744057747214",
+          "actions": [
+            {
+              "label": "Remplir le formulaire d'admission",
+              "path": "/admission"
+            }
+          ]
+        },
+        {
+          "_id": "67f43722d90f0e625765bd1b",
+          "role": "Infirmier",
+          "patientId": "patient-201",
+          "dateTime": "2025-04-07T18:34:00",
+          "type_task": "encounter",
+          "id_type": "encounter-1744058146784",
+          "actions": [
+            {
+              "label": "Remplir le formulaire d'admission",
+              "path": "/admission"
+            }
+          ]
+        },
+        {
+          "_id": "67f43767d90f0e625765bd1c",
+          "role": "Médecin",
+          "patientId": "patient-201",
+          "dateTime": "2025-04-07T18:36:00",
+          "type_task": "observation",
+          "id_type": "observation-1744058215384",
+          "actions": [
+            {
+              "label": "un peu de tension",
+              "path": "/observation"
+            }
+          ]
+        },
+        {
+          "_id": "67f437acd90f0e625765bd1d",
+          "role": "Médecin",
+          "patientId": "patient-201",
+          "dateTime": "2025-04-07T18:37:00",
+          "type_task": "procedure",
+          "id_type": "procedure-1744058284920",
+          "actions": [
+            {
+              "label": "Programmer une procédure",
+              "path": "/procedure"
+            }
+          ]
+        },
+        {
+          "_id": "67f43c562068a45c5dba0788",
+          "role": "Infirmier",
+          "patientId": "patient-300",
+          "dateTime": "2025-04-07T18:57:00",
+          "type_task": "encounter",
+          "id_type": "encounter-1744059478403",
+          "actions": [
+            {
+              "label": "Remplir le formulaire d'admission",
+              "path": "/admission"
+            }
+          ]
+        },
+        {
+          "_id": "67f43ca82068a45c5dba0789",
+          "role": "Radiologue",
+          "patientId": "patient-777",
+          "dateTime": "2025-04-07T18:59:00",
+          "type_task": "diagnosticReport",
+          "id_type": "diagnosticReport-1744059560864",
+          "actions": [
+            {
+              "label": "Écrire un rapport radio",
+              "path": "/radiology-report"
+            }
+          ]
+        },
+        {
+          "_id": "67f43cb52068a45c5dba078a",
+          "role": null,
+          "patientId": null,
+          "dateTime": "1970-01-01T00:00:00",
+          "type_task": "diagnosticReport",
+          "id_type": "diagnosticReport-1744059573426",
+          "actions": [
+            {
+              "path": "/radiology-report"
+            }
+          ]
+        }
+      ]
+    },
+    "observations": {
+      "count": 6,
+      "documents": [
+        {
+          "_id": "obs-001",
+          "resourceType": "Observation",
+          "status": "final",
+          "code": {
+            "text": "Daily Assessment"
+          },
+          "subject": {
+            "reference": "Patient/patient-123"
+          },
+          "encounter": {
+            "reference": "Encounter/encounter-456"
+          },
+          "performer": {
+            "reference": "Practitioner/nurse-789",
+            "display": "Infirmier Martin"
+          },
+          "effectiveDateTime": "2025-03-20T11:00:00Z",
+          "valueString": "Patient stable, tension normale.",
+          "interpretation": [
+            {
+              "text": "Normal"
+            }
+          ],
+          "method": {
+            "text": "Clinical exam"
+          },
+          "bodySite": {
+            "text": "Full body"
+          },
+          "note": [
+            {
+              "text": "Aucun signe d’aggravation."
+            }
+          ],
+          "issued": "2025-03-20T11:05:00Z"
+        },
+        {
+          "_id": "obs-002",
+          "resourceType": "Observation",
+          "status": "final",
+          "code": {
+            "text": "Daily Assessment"
+          },
+          "subject": {
+            "reference": "Patient/patient-123"
+          },
+          "encounter": {
+            "reference": "Encounter/encounter-456"
+          },
+          "performer": {
+            "reference": "Practitioner/doctor-456",
+            "display": "Dr. Moreau"
+          },
+          "effectiveDateTime": "2025-03-21T08:00:00Z",
+          "valueString": "Patient présente une légère fièvre.",
+          "interpretation": [
+            {
+              "text": "Borderline"
+            }
+          ],
+          "method": {
+            "text": "Observation clinique"
+          },
+          "bodySite": {
+            "text": "Front"
+          },
+          "note": [
+            {
+              "text": "Prévoir paracétamol si la température monte."
+            }
+          ],
+          "issued": "2025-03-21T08:05:00Z"
+        },
+        {
+          "_id": "obs-003",
+          "resourceType": "Observation",
+          "status": "final",
+          "code": {
+            "text": "Blood Pressure"
+          },
+          "subject": {
+            "reference": "Patient/patient-123"
+          },
+          "encounter": {
+            "reference": "Encounter/encounter-456"
+          },
+          "performer": {
+            "reference": "Practitioner/nurse-789",
+            "display": "Infirmier Martin"
+          },
+          "effectiveDateTime": "2025-03-21T08:30:00Z",
+          "valueQuantity": {
+            "value": 120,
+            "unit": "mmHg",
+            "system": "http://unitsofmeasure.org",
+            "code": "mm[Hg]"
+          },
+          "component": [
+            {
+              "code": {
+                "text": "Systolic Blood Pressure"
+              },
+              "valueQuantity": {
+                "value": 120,
+                "unit": "mmHg"
+              }
+            },
+            {
+              "code": {
+                "text": "Diastolic Blood Pressure"
+              },
+              "valueQuantity": {
+                "value": 80,
+                "unit": "mmHg"
+              }
+            }
+          ],
+          "interpretation": [
+            {
+              "text": "Normal"
+            }
+          ],
+          "method": {
+            "text": "Automatic sphygmomanometer"
+          },
+          "bodySite": {
+            "text": "Left arm"
+          },
+          "issued": "2025-03-21T08:35:00Z"
+        },
+        {
+          "_id": "obs-004",
+          "resourceType": "Observation",
+          "status": "final",
+          "code": {
+            "text": "Oxygen Saturation"
+          },
+          "subject": {
+            "reference": "Patient/patient-123"
+          },
+          "encounter": {
+            "reference": "Encounter/encounter-456"
+          },
+          "performer": {
+            "reference": "Practitioner/nurse-789",
+            "display": "Infirmier Martin"
+          },
+          "effectiveDateTime": "2025-03-21T09:00:00Z",
+          "valueQuantity": {
+            "value": 98,
+            "unit": "%",
+            "system": "http://unitsofmeasure.org",
+            "code": "%"
+          },
+          "interpretation": [
+            {
+              "text": "Normal"
+            }
+          ],
+          "method": {
+            "text": "Pulse oximeter"
+          },
+          "bodySite": {
+            "text": "Index doigt droit"
+          },
+          "note": [
+            {
+              "text": "Aucune désaturation détectée."
+            }
+          ],
+          "issued": "2025-03-21T09:02:00Z"
+        },
+        {
+          "_id": "observation-1744055475318",
+          "resourceType": "Observation",
+          "status": "final",
+          "code": {
+            "text": "Température"
+          },
+          "subject": {
+            "reference": "Patient/patient-125"
+          },
+          "encounter": {
+            "reference": "Encounter/"
+          },
+          "performer": {
+            "reference": "",
+            "display": "Dr Blue"
+          },
+          "effectiveDateTime": "2025-04-07T21:50",
+          "interpretation": [
+            {
+              "text": ""
+            }
+          ],
+          "method": {
+            "text": ""
+          },
+          "bodySite": {
+            "text": ""
+          },
+          "note": [
+            {
+              "text": ""
+            }
+          ],
+          "issued": "",
+          "valueString": "39"
+        },
+        {
+          "_id": "observation-1744058215384",
+          "resourceType": "Observation",
+          "status": "final",
+          "code": {
+            "text": "Température"
+          },
+          "subject": {
+            "reference": "Patient/patient-201"
+          },
+          "encounter": {
+            "reference": "Encounter/"
+          },
+          "performer": {
+            "reference": "",
+            "display": "Dr Blue"
+          },
+          "effectiveDateTime": "",
+          "interpretation": [
+            {
+              "text": ""
+            }
+          ],
+          "method": {
+            "text": ""
+          },
+          "bodySite": {
+            "text": ""
+          },
+          "note": [
+            {
+              "text": ""
+            }
+          ],
+          "issued": "",
+          "valueString": "16/11"
+        }
+      ]
+    }
+  }
+}

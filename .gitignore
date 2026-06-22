@@ -1,5 +1,94 @@
-# Ignore Python environments and large files
-backend/app/services/whisper_models/*.pt
+# ===== PYTHON =====
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+*.egg
+dist/
+build/
+.eggs/
+venv/
+env/
+.venv/
 backend/aurian_env/
+backend/venv/
+
+# Modèles Whisper (gros fichiers binaires)
+backend/app/services/whisper_models/*.pt
+*.pt
+*.bin
+
+# ===== ENVIRONNEMENT & SECRETS =====
+.env
+backend/.env
+auriance_mobile/.env
+# Garder les fichiers d'exemple
+!.env.example
+!backend/.env.example
+!auriance_mobile/.env.example
+
+# ===== BASE DE DONNÉES LOCALE =====
+*.db
+*.sqlite
+*.sqlite3
+auriance.db
+backend/auriance.db
+chroma_db/
+
+# ===== LOGS =====
+*.log
+*.log.*
+server_debug.log
+flutter_01.log
+backend_run.log
+backend_run_err.log
+frontend_run.log
+frontend_run_err.log
+
+# ===== NODE / FRONTEND =====
+node_modules/
+auriance-frontend/node_modules/
+.npm
+.yarn
+dist/
+auriance-frontend/dist/
+.vite/
+
+# ===== FLUTTER / DART =====
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+auriance_mobile/.dart_tool/
+auriance_mobile/build/
+auriance_mobile/.flutter-plugins
+auriance_mobile/.flutter-plugins-dependencies
+
+# ===== BINAIRES & BUILD =====
 *.dll
 *.lib
+*.so
+*.dylib
+*.apk
+*.aab
+*.ipa
+*.exe
+*.zip
+AURIANCE_Exports_Bases_de_Donnees.zip
+
+# ===== IDE =====
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# ===== FICHIERS TEMPORAIRES =====
+*.tmp
+*.temp
+nul
+backend/nul
