@@ -1,5 +1,5 @@
 // src/services/api.js
-export const API_BASE_URL = 'http://127.0.0.1:8090';
+export const API_BASE_URL = 'http://127.0.0.1:8000';
 
 export const loginUser = async (username, password) => {
     console.log(`Tentative de connexion vers ${API_BASE_URL}/auth/login avec ${username}`);

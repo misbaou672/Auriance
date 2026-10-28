@@ -108,7 +108,7 @@ export default function GlobalAIChat() {
                         role: m.role === 'user' ? 'user' : 'assistant',
                         content: typeof m.content === 'string' ? m.content : "Info visuelle"
                     })),
-                    model: "gemini-1.5-pro"
+                    model: "gemini-3.6-flash"
                 })
             });
 

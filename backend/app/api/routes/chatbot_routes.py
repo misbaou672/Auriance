@@ -14,7 +14,7 @@ class ChatMessage(BaseModel):
 
 class ChatRequest(BaseModel):
     messages: List[ChatMessage]
-    model: str = "gemini-1.5-pro"  # Default to Pro
+    model: str = "gemini-3.6-flash"  # ignoré : le modèle vient de GEMINI_MODEL côté serveur
 
 @router.post("/")
 async def chat_with_gemini(request: ChatRequest):
@@ -64,7 +64,7 @@ async def chat_with_gemini(request: ChatRequest):
         # Ajout du system instruction au début (trick pour compatibilité simple)
         # Pour le vrai param system_instruction, il faut l'API v1beta/models/...:generateContent
         
-        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent?key={api_key}"
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{os.getenv('GEMINI_MODEL', 'gemini-3.6-flash')}:generateContent?key={api_key}"
         
         payload = {
             "contents": gemini_contents,

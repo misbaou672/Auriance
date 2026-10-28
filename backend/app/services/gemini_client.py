@@ -14,8 +14,8 @@ class GeminiClient:
 
     def __init__(self):
         self.api_key = os.getenv("GEMINI_API_KEY", "")
-        self.model_fast = "gemini-2.0-flash"
-        self.model_smart = "gemini-1.5-pro"
+        self.model_fast = os.getenv("GEMINI_MODEL", "gemini-3.6-flash")
+        self.model_smart = os.getenv("GEMINI_MODEL", "gemini-3.6-flash")
         self._configured = False
 
     def _ensure_configured(self):

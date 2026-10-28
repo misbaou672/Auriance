@@ -85,7 +85,7 @@ class RealLLMService:
                         "model": model,
                         "messages": messages,
                         "temperature": 0.2,
-                        "max_tokens": 800,
+                        "max_tokens": 4000,
                     },
                     timeout=30.0,
                 )

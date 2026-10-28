@@ -214,9 +214,12 @@ class WhisperService:
             return audio_path, None
 
         try:
-            read_audio = self.vad_utils["read_audio"]
-            get_speech_timestamps = self.vad_utils["get_speech_timestamps"]
-            collect_chunks = self.vad_utils["collect_chunks"]
+            if isinstance(self.vad_utils, tuple):
+                get_speech_timestamps, _, read_audio, _, collect_chunks = self.vad_utils
+            else:
+                read_audio = self.vad_utils["read_audio"]
+                get_speech_timestamps = self.vad_utils["get_speech_timestamps"]
+                collect_chunks = self.vad_utils["collect_chunks"]
 
             wav = read_audio(audio_path, sampling_rate=self.vad_sample_rate)
             speech_timestamps = get_speech_timestamps(wav, self.vad_model, sampling_rate=self.vad_sample_rate)
